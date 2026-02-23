@@ -238,7 +238,6 @@ DELETE /admin/badges/{id}         # Delete badge
 
 ### Design Highlights
 - **Modern Cards** - Gradient card designs with shadows
-- **Dark Mode** - Automatic dark theme support
 - **Responsive** - Mobile, tablet, and desktop optimization
 - **Interactive Charts** - Real-time Chart.js visualizations
 - **Smooth Animations** - CSS transitions and hover effects
@@ -416,5 +415,6 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-#   M y P o c k e t  
+#   M y P o c k e t 
+ 
  
