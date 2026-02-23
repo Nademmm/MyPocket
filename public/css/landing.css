@@ -1,0 +1,166 @@
+/* Landing Page Styles - MyPocket Light Green Theme */
+
+:root {
+    --bg-primary: #f6f0d7;
+    --bg-card: #ffffff;
+    --bg-dark: #2d2d2d;
+    --border-color: #c5d89d;
+    --border-hover: #9cab84;
+    --text-primary: #2d2d2d;
+    --text-secondary: #89986d;
+    --text-muted: #9cab84;
+    --accent-light: #f6f0d7;
+    --accent-cream: #faf8ed;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Hero Background */
+.hero-bg {
+    background: url('/images/fallkoin.jpg') center/cover no-repeat;
+    position: relative;
+}
+
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(246, 240, 215, 0.9) 0%, rgba(232, 237, 194, 0.85) 100%);
+}
+
+/* Navbar */
+.navbar {
+    backdrop-filter: blur(14px);
+    background: rgba(246, 240, 215, 0.9);
+    border-bottom: 1px solid rgba(197, 216, 157, 0.4);
+}
+
+.nav-link {
+    position: relative;
+    transition: 0.3s;
+    color: #89986d;
+    font-weight: 500;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #9cab84;
+    transition: 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: #6b7854;
+}
+
+/* Cards */
+.card {
+    background: linear-gradient(135deg, #ffffff 0%, #faf8ed 100%);
+    border: 1px solid rgba(197, 216, 157, 0.4);
+    transition: 0.35s;
+    box-shadow: 0 4px 24px rgba(137, 152, 109, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border-color: #c5d89d;
+    box-shadow: 0 20px 40px rgba(137, 152, 109, 0.2);
+}
+
+/* Body base styles */
+body.landing-page {
+    background: #f6f0d7;
+    color: #2d2d2d;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Button styles */
+.btn-primary {
+    background: linear-gradient(135deg, #c5d89d 0%, #9cab84 100%);
+    color: #2d2d2d;
+    border: 1px solid rgba(156, 171, 132, 0.5);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #b5cc7d 0%, #89986d 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(137, 152, 109, 0.3);
+}
+
+/* Feature icons */
+.feature-icon {
+    background: linear-gradient(135deg, #c5d89d 0%, #9cab84 100%);
+    border: 2px solid rgba(197, 216, 157, 0.5);
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, #e8edc2 0%, #f6f0d7 100%);
+    border-top: 1px solid rgba(197, 216, 157, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .hero-bg {
+        min-height: 45vh;
+        padding: 2rem 1rem;
+    }
+
+    .card {
+        margin: 0.75rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-link {
+        display: inline-block;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .hero-bg {
+        min-height: 35vh;
+        padding: 1.5rem 0.75rem;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0.25rem 0.75rem;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.5rem;
+    }
+
+    .hero-bg {
+        min-height: 25vh;
+        padding: 1rem 0.5rem;
+    }
+
+    .card {
+        padding: 0.75rem;
+    }
+}

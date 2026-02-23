@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========== BASE STYLES ========== */
+@layer base {
+    :root {
+        color-scheme: light;
+        --bg-primary: #f6f0d7;
+        --bg-card: #ffffff;
+        --text-primary: #2d2d2d;
+        --text-secondary: #89986d;
+        --border-color: #c5d89d;
+        --accent-color: #9cab84;
+    }
+
+    html.dark {
+        color-scheme: dark;
+        --bg-primary: #2d2d2d;
+        --bg-card: #3d3d3d;
+        --text-primary: #f6f0d7;
+        --text-secondary: #c5d89d;
+        --border-color: #89986d;
+        --accent-color: #9cab84;
+    }
+
+    body {
+        @apply antialiased bg-[#f6f0d7] text-[#2d2d2d];
+    }
+}
+
+/* ========== COMPONENT STYLES ========== */
+@layer components {
+    /* Glass morphism effect */
+    .glass {
+        @apply bg-white/80 backdrop-blur-md border border-[#c5d89d]/50;
+    }
+
+    .glass-light {
+        @apply bg-[#f6f0d7]/90 backdrop-blur-md border border-[#c5d89d]/30;
+    }
+
+    .dark .glass {
+        @apply bg-[#3d3d3d]/80 backdrop-blur-md border border-[#89986d]/30;
+    }
+
+    /* Card components */
+    .card {
+        @apply bg-white rounded-2xl shadow-soft transition-all duration-300 border border-[#c5d89d]/30;
+    }
+
+    .card-hover {
+        @apply card hover:shadow-soft-lg hover:-translate-y-1 cursor-pointer;
+    }
+
+    /* Button base styles */
+    .btn-base {
+        @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+    }
+
+    .btn-primary {
+        @apply btn-base bg-gradient-to-r from-[#c5d89d] to-[#9cab84] text-[#2d2d2d] hover:shadow-glow hover:from-[#b5cc7d] hover:to-[#89986d] active:scale-95 focus:ring-[#9cab84];
+    }
+
+    .btn-secondary {
+        @apply btn-base bg-[#9cab84] text-white hover:bg-[#89986d] hover:shadow-md active:scale-95 focus:ring-[#9cab84];
+    }
+
+    .btn-ghost {
+        @apply btn-base text-[#89986d] hover:bg-[#c5d89d]/20 active:scale-95;
+    }
+
+    .btn-outline {
+        @apply btn-base border-2 border-[#9cab84] text-[#89986d] hover:bg-[#c5d89d]/20 active:scale-95;
+    }
+
+    /* Input styles */
+    .input-field {
+        @apply w-full px-4 py-3 rounded-xl border border-[#c5d89d]/50 bg-white text-[#2d2d2d] placeholder-[#9cab84]/50 focus:outline-none focus:ring-2 focus:ring-[#c5d89d] focus:border-transparent transition-all duration-200;
+    }
+
+    .dark .input-field {
+        @apply bg-[#3d3d3d] border-[#89986d]/30 text-[#f6f0d7];
+    }
+
+    /* Typography helpers */
+    .text-heading {
+        @apply text-[#2d2d2d] font-bold;
+    }
+
+    .text-subtle {
+        @apply text-[#89986d];
+    }
+
+    .text-muted {
+        @apply text-[#9cab84];
+    }
+
+    /* Badges */
+    .badge {
+        @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200;
+    }
+
+    .badge-primary {
+        @apply badge bg-[#c5d89d]/30 text-[#6b7854] border border-[#c5d89d]/50;
+    }
+
+    .badge-secondary {
+        @apply badge bg-[#9cab84]/20 text-[#89986d] border border-[#9cab84]/30;
+    }
+
+    .badge-success {
+        @apply badge bg-[#c5d89d]/30 text-[#6b7854] border border-[#9cab84]/40;
+    }
+
+    .badge-danger {
+        @apply badge bg-[#d9a3a3]/30 text-[#8b4141] border border-[#c17b7b]/40;
+    }
+
+    /* Utility divider */
+    .divider {
+        @apply border-t border-[#c5d89d]/30;
+    }
+
+    /* Scrollbar customization */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f6f0d7;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c5d89d;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #9cab84;
+    }
+
+    .dark ::-webkit-scrollbar-track {
+        background: #2d2d2d;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+        background: #89986d;
+    }
+}
+
+/* ========== UTILITY ANIMATIONS ========== */
+@layer utilities {
+    .animate-in {
+        animation: slideInUp 0.4s ease-out;
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; transform: translateY(10px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+}
