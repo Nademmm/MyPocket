@@ -44,7 +44,7 @@
                     <div class="text-[#89986d] text-sm font-medium uppercase tracking-wider mb-1">Total Income</div>
                     <div class="text-3xl font-bold text-[#2d2d2d]">Rp {{ number_format($income, 0, ',', '.') }}</div>
                     <div class="mt-3 h-1 w-full bg-[#f6f0d7] rounded-full overflow-hidden border border-[#c5d89d]/30">
-                        <div class="h-full bg-gradient-to-r from-[#c5d89d] to-[#9cab84] w-3/4 rounded-full"></div>
+                        <div class="h-full bg-gradient-to-r from-[#c5d89d] to-[#9cab84] w-4/4 rounded-full"></div>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     <div class="text-[#c17b7b] text-sm font-medium uppercase tracking-wider mb-1">Total Expense</div>
                     <div class="text-3xl font-bold text-[#8b4141]">Rp {{ number_format($expense, 0, ',', '.') }}</div>
                     <div class="mt-3 h-1 w-full bg-[#f6f0d7] rounded-full overflow-hidden border border-[#d9a3a3]/30">
-                        <div class="h-full bg-gradient-to-r from-[#d9a3a3] to-[#c17b7b] w-1/2 rounded-full"></div>
+                        <div class="h-full bg-gradient-to-r from-[#d9a3a3] to-[#c17b7b] w-4/4 rounded-full"></div>
                     </div>
                 </div>
             </div>
