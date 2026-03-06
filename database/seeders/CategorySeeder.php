@@ -18,7 +18,7 @@ class CategorySeeder extends Seeder
             ['name' => 'Freelance', 'type' => 'income'],
             ['name' => 'Investment', 'type' => 'income'],
             ['name' => 'Bonus', 'type' => 'income'],
-            ['name' => 'Other Income', 'type' => 'income'],
+            ['name' => 'Other income', 'type' => 'income'],
 
             // Expense
             ['name' => 'Food & Dining', 'type' => 'expense'],
@@ -28,7 +28,7 @@ class CategorySeeder extends Seeder
             ['name' => 'Utilities', 'type' => 'expense'],
             ['name' => 'Healthcare', 'type' => 'expense'],
             ['name' => 'Education', 'type' => 'expense'],
-            ['name' => 'Others', 'type' => 'expense'],
+            ['name' => 'Others expense', 'type' => 'expense'],
         ];
 
         foreach ($categories as $category) {

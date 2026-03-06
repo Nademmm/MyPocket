@@ -36,14 +36,6 @@
         @apply bg-white/80 backdrop-blur-md border border-[#c5d89d]/50;
     }
 
-    .glass-light {
-        @apply bg-[#f6f0d7]/90 backdrop-blur-md border border-[#c5d89d]/30;
-    }
-
-    .dark .glass {
-        @apply bg-[#3d3d3d]/80 backdrop-blur-md border border-[#89986d]/30;
-    }
-
     /* Card components */
     .card {
         @apply bg-white rounded-2xl shadow-soft transition-all duration-300 border border-[#c5d89d]/30;
@@ -66,39 +58,14 @@
         @apply btn-base bg-[#9cab84] text-white hover:bg-[#89986d] hover:shadow-md active:scale-95 focus:ring-[#9cab84];
     }
 
-    .btn-ghost {
-        @apply btn-base text-[#89986d] hover:bg-[#c5d89d]/20 active:scale-95;
-    }
-
-    .btn-outline {
-        @apply btn-base border-2 border-[#9cab84] text-[#89986d] hover:bg-[#c5d89d]/20 active:scale-95;
-    }
-
     /* Input styles */
     .input-field {
         @apply w-full px-4 py-3 rounded-xl border border-[#c5d89d]/50 bg-white text-[#2d2d2d] placeholder-[#9cab84]/50 focus:outline-none focus:ring-2 focus:ring-[#c5d89d] focus:border-transparent transition-all duration-200;
     }
 
-    .dark .input-field {
-        @apply bg-[#3d3d3d] border-[#89986d]/30 text-[#f6f0d7];
-    }
-
     /* Typography helpers */
     .text-heading {
         @apply text-[#2d2d2d] font-bold;
-    }
-
-    .text-subtle {
-        @apply text-[#89986d];
-    }
-
-    .text-muted {
-        @apply text-[#9cab84];
-    }
-
-    /* Badges */
-    .badge {
-        @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200;
     }
 
     .badge-primary {
@@ -122,14 +89,6 @@
         @apply border-t border-[#c5d89d]/30;
     }
 
-    /* Scrollbar customization */
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #f6f0d7;
     }
 
     ::-webkit-scrollbar-thumb {
@@ -169,4 +128,16 @@
         0% { opacity: 0; transform: translateY(20px); }
         100% { opacity: 1; transform: translateY(0); }
     }
+}
+
+/* ========== CUSTOM NAVBAR STYLING ========== */
+header.custom-navbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 40 !important;
+    width: 100% !important;
+    background: rgba(45, 45, 45, 0.85) !important;
+    border-bottom: 1px solid rgba(197, 216, 157, 0.3) !important;
+    backdrop-filter: blur(14px) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }

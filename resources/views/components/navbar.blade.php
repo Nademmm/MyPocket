@@ -1,5 +1,5 @@
 <header class="sticky top-0 z-40 w-full bg-white border-b border-[#c5d89d]/40 shadow-sm">
-    <!-- Fixed Sidebar Toggle Button -->
+    <!-- Sidebar Toggle Button -->
     <button @click="sidebarOpen = !sidebarOpen" class="fixed top-3 left-4 z-50 p-2 rounded-xl bg-[#faf8ed] border border-[#c5d89d]/50 text-[#89986d] hover:bg-[#c5d89d]/20 hover:text-[#6b7854] transition-all duration-200 shadow-lg">
         <svg x-show="!sidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>

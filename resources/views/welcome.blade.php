@@ -172,6 +172,26 @@
                 padding: 0.75rem;
             }
         }
+
+        /* Custom Footer Styling - Override Tailwind */
+        footer.custom-footer {
+            background: #2d2d2d !important;
+            border-top: 1px solid rgba(197, 216, 157, 0.3) !important;
+            padding: 2.5rem 1rem !important;
+            text-align: center !important;
+        }
+
+        footer.custom-footer p {
+            color: #ffffff !important;
+            font-weight: 500 !important;
+            margin: 0 !important;
+        }
+
+        footer.custom-footer p.footer-subtitle {
+            margin-top: 0.5rem !important;
+            font-size: 0.875rem !important;
+            color: #c5d89d !important;
+        }
     </style>
 </head>
 
@@ -274,7 +294,7 @@
 <section id="about" class="py-24 section-sage">
     <div class="max-w-4xl mx-auto px-6 text-center">
         <h2 class="text-4xl font-bold mb-6 text-[#2d2d2d]">About MyPocket</h2>
-        <p class="text-[#6b7854] text-lg leading-relaxed">
+        <p class="text-[#2d2d2d] text-lg leading-relaxed">
             MyPocket is a modern personal finance tracking platform designed to help you 
             manage your money with clarity and control. We believe that financial wellness 
             starts with understanding your spending habits and saving consistently.
@@ -287,11 +307,10 @@
     </div>
 </section>
 
-<!-- FOOTER - Dark with sage accents -->
-<footer class="py-10 text-center bg-[#2d2d2d] border-t border-[#c5d89d]/30">
-    <p class="text-white font-medium">©2026 MyPocket All rights reserved.</p>
-    <p class="mt-2 text-sm text-[#c5d89d]">Modern personal finance tracking platform.</p>
+<!-- FOOTER -->
+<footer class="custom-footer">
+    <p>©2026 MyPocket All rights reserved.</p>
+    <p class="footer-subtitle">Modern personal finance tracking platform.</p>
 </footer>
-
 </body>
 </html>
