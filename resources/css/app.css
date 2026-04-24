@@ -25,18 +25,32 @@
     }
 
     body {
-        @apply antialiased bg-[#f6f0d7] text-[#2d2d2d];
+        /* overflow-x-hidden untuk mencegah scroll ke samping */
+        @apply antialiased bg-[#f6f0d7] text-[#2d2d2d] overflow-x-hidden;
+    }
+
+    /* MENYEMBUNYIKAN SCROLLBAR (Warna Hitam) */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    html {
+        ms-overflow-style: none;  /* IE/Edge */
+        scrollbar-width: none;  /* Firefox */
     }
 }
 
 /* ========== COMPONENT STYLES ========== */
 @layer components {
-    /* Glass morphism effect */
+    /* Definisi dasar class badge agar @apply badge tidak error */
+    .badge {
+        @apply inline-block px-3 py-1 text-xs font-semibold rounded-full transition-all;
+    }
+
     .glass {
         @apply bg-white/80 backdrop-blur-md border border-[#c5d89d]/50;
     }
 
-    /* Card components */
     .card {
         @apply bg-white rounded-2xl shadow-soft transition-all duration-300 border border-[#c5d89d]/30;
     }
@@ -45,7 +59,6 @@
         @apply card hover:shadow-soft-lg hover:-translate-y-1 cursor-pointer;
     }
 
-    /* Button base styles */
     .btn-base {
         @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
     }
@@ -58,16 +71,15 @@
         @apply btn-base bg-[#9cab84] text-white hover:bg-[#89986d] hover:shadow-md active:scale-95 focus:ring-[#9cab84];
     }
 
-    /* Input styles */
     .input-field {
         @apply w-full px-4 py-3 rounded-xl border border-[#c5d89d]/50 bg-white text-[#2d2d2d] placeholder-[#9cab84]/50 focus:outline-none focus:ring-2 focus:ring-[#c5d89d] focus:border-transparent transition-all duration-200;
     }
 
-    /* Typography helpers */
     .text-heading {
         @apply text-[#2d2d2d] font-bold;
     }
 
+    /* Badge Variants */
     .badge-primary {
         @apply badge bg-[#c5d89d]/30 text-[#6b7854] border border-[#c5d89d]/50;
     }
@@ -84,28 +96,8 @@
         @apply badge bg-[#d9a3a3]/30 text-[#8b4141] border border-[#c17b7b]/40;
     }
 
-    /* Utility divider */
     .divider {
         @apply border-t border-[#c5d89d]/30;
-    }
-
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: #c5d89d;
-        border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #9cab84;
-    }
-
-    .dark ::-webkit-scrollbar-track {
-        background: #2d2d2d;
-    }
-
-    .dark ::-webkit-scrollbar-thumb {
-        background: #89986d;
     }
 }
 
