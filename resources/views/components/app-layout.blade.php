@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body class="bg-[#f6f0d7] text-[#2d2d2d] min-h-screen antialiased">
+<body class="bg-[#f0f4f8] text-[#2d2d2d] min-h-screen antialiased">
     <div class="min-h-screen flex">
         <!-- Sidebar Backdrop -->
         <div class="fixed inset-0 bg-[#2d2d2d]/30 z-30 transition-opacity duration-300" 
@@ -115,7 +115,7 @@
             <x-navbar />
             
             <!-- Main Content Area -->
-            <main class="flex-1 bg-[#f6f0d7] p-4 md:p-6 lg:p-8 overflow-y-auto">
+        <main class="flex-1 bg-[#f0f4f8] p-4 md:p-6 lg:p-8 overflow-y-auto">
                 <div class="max-w-7xl mx-auto">
                     {{ $slot }}
                 </div>

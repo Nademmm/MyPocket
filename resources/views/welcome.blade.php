@@ -149,7 +149,7 @@
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
             <li><a href="#about">Tentang Kami</a></li>
-            <li><a href="#Home">Home</a></li>
+            <li><a href="/">Home</a></li>
         </ul>
         <div class="auth-links">
             @guest

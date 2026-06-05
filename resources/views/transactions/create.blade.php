@@ -1,62 +1,67 @@
 <x-app-layout title="Create Transaction">
-    <!-- Header -->
-    <div class="mb-8">
-        <div class="flex items-center justify-between mb-2">
-            <div>
-                <h1 class="text-4xl font-bold text-[#2d2d2d] mb-2">Create Transaction</h1>
-                <p class="text-[#89986d]">Record your income or expense</p>
-            </div>
-            <a href="{{ route('transactions.index') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#c5d89d]/30 to-[#9cab84]/20 hover:from-[#c5d89d]/50 hover:to-[#9cab84]/30 text-[#2d2d2d] font-semibold rounded-xl transition-all duration-300 border border-[#c5d89d]/50">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                </svg>
-                Back to List
-            </a>
+
+    {{-- Header --}}
+    <div class="mb-8 flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-blue-900 mb-1">Create Transaction</h1>
+            <p class="text-gray-500 text-sm">Record your income or expense</p>
         </div>
+        <a href="{{ route('transactions.index') }}"
+           class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-gray-500 font-medium rounded-xl hover:bg-gray-100 hover:border-gray-300 transition shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to List
+        </a>
     </div>
 
-    <!-- Form Card -->
-    <div class="bg-gradient-to-br from-white to-[#faf8ed] border border-[#c5d89d]/30 rounded-2xl p-6 md:p-8 shadow-xl">
+    {{-- Form Card --}}
+    <div class="bg-white rounded-2xl p-6 md:p-8 shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
         <form method="POST" action="{{ route('transactions.store') }}" class="space-y-6">
             @csrf
 
-            <!-- Category -->
+            {{-- Category --}}
             <div>
-                <label for="category_id" class="block text-sm font-medium text-[#6b7854] mb-2">
-                    Category <span class="text-[#9cab84]">*</span>
+                <label for="category_id" class="block text-sm font-semibold text-blue-900 mb-1.5">
+                    Category <span class="text-blue-500">*</span>
                 </label>
-                <select id="category_id" name="category_id" required class="w-full px-4 py-3 bg-[#faf8ed] border border-[#c5d89d]/50 text-[#2d2d2d] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c5d89d] focus:border-transparent transition placeholder-[#9cab84]">
+                <select id="category_id" name="category_id" required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                     <option value="">Select Category</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }} class="bg-[#faf8ed]">
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach
                 </select>
                 @error('category_id')
-                    <p class="mt-1 text-sm text-[#c17b7b]">{{ $message }}</p>
+                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Type -->
+            {{-- Type --}}
             <div>
-                <label class="block text-sm font-medium text-[#6b7854] mb-2">
-                    Type <span class="text-[#9cab84]">*</span>
+                <label class="block text-sm font-semibold text-blue-900 mb-1.5">
+                    Type <span class="text-blue-500">*</span>
                 </label>
                 <div class="grid grid-cols-2 gap-3">
-                    <label class="flex items-center p-3 bg-[#faf8ed] border border-[#c5d89d]/50 rounded-xl cursor-pointer hover:border-[#9cab84]/70 transition" id="label-income">
-                        <input type="radio" name="type" value="income" {{ old('type') == 'income' ? 'checked' : '' }} class="w-4 h-4 text-[#c5d89d] bg-[#faf8ed] border-[#c5d89d]/50 focus:ring-[#c5d89d]" required>
-                        <span class="ml-2 text-[#2d2d2d]">
-                            <svg class="w-5 h-5 inline mr-1 text-[#6b7854]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <label id="label-income"
+                           class="flex items-center gap-3 p-3.5 bg-gray-50 border border-gray-200 rounded-xl cursor-pointer hover:border-emerald-400 transition">
+                        <input type="radio" name="type" value="income" {{ old('type') == 'income' ? 'checked' : '' }}
+                               class="w-4 h-4 text-blue-500 border-gray-200 focus:ring-blue-500" required>
+                        <span class="flex items-center gap-1.5 font-medium text-gray-800">
+                            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/>
                             </svg>
                             Income
                         </span>
                     </label>
-                    <label class="flex items-center p-3 bg-[#faf8ed] border border-[#c5d89d]/50 rounded-xl cursor-pointer hover:border-[#c17b7b]/50 transition" id="label-expense">
-                        <input type="radio" name="type" value="expense" {{ old('type') == 'expense' ? 'checked' : '' }} class="w-4 h-4 text-[#c17b7b] bg-[#faf8ed] border-[#c5d89d]/50 focus:ring-[#c17b7b]" required>
-                        <span class="ml-2 text-[#2d2d2d]">
-                            <svg class="w-5 h-5 inline mr-1 text-[#c17b7b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <label id="label-expense"
+                           class="flex items-center gap-3 p-3.5 bg-gray-50 border border-gray-200 rounded-xl cursor-pointer hover:border-red-400 transition">
+                        <input type="radio" name="type" value="expense" {{ old('type') == 'expense' ? 'checked' : '' }}
+                               class="w-4 h-4 text-red-500 border-gray-200 focus:ring-red-500" required>
+                        <span class="flex items-center gap-1.5 font-medium text-gray-800">
+                            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>
                             </svg>
                             Expense
@@ -64,52 +69,57 @@
                     </label>
                 </div>
                 @error('type')
-                    <p class="mt-1 text-sm text-[#c17b7b]">{{ $message }}</p>
+                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Amount -->
+            {{-- Amount --}}
             <div>
-                <label for="amount" class="block text-sm font-medium text-[#6b7854] mb-2">
-                    Amount <span class="text-[#9cab84]">*</span>
+                <label for="amount" class="block text-sm font-semibold text-blue-900 mb-1.5">
+                    Amount <span class="text-blue-500">*</span>
                 </label>
                 <div class="relative">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#9cab84] font-semibold">Rp</span>
-                    <input type="number" id="amount" name="amount" value="{{ old('amount') }}" required min="0" step="0.01" class="w-full pl-12 pr-4 py-3 bg-[#faf8ed] border border-[#c5d89d]/50 text-[#2d2d2d] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c5d89d] focus:border-transparent transition placeholder-[#9cab84]" placeholder="0.00">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">Rp</span>
+                    <input type="number" id="amount" name="amount" value="{{ old('amount') }}"
+                           required min="0" step="0.01" placeholder="0"
+                           class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 text-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition placeholder-gray-500">
                 </div>
                 @error('amount')
-                    <p class="mt-1 text-sm text-[#c17b7b]">{{ $message }}</p>
+                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Description -->
+            {{-- Description --}}
             <div>
-                <label for="description" class="block text-sm font-medium text-[#6b7854] mb-2">
-                    Description
-                </label>
-                <textarea id="description" name="description" rows="3" class="w-full px-4 py-3 bg-[#faf8ed] border border-[#c5d89d]/50 text-[#2d2d2d] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c5d89d] focus:border-transparent transition placeholder-[#9cab84]" placeholder="Enter description...">{{ old('description') }}</textarea>
+                <label for="description" class="block text-sm font-semibold text-blue-900 mb-1.5">Description</label>
+                <textarea id="description" name="description" rows="3" placeholder="Enter description..."
+                          class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition placeholder-gray-500 resize-none">{{ old('description') }}</textarea>
                 @error('description')
-                    <p class="mt-1 text-sm text-[#c17b7b]">{{ $message }}</p>
+                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Transaction Date -->
+            {{-- Transaction Date --}}
             <div>
-                <label for="transaction_date" class="block text-sm font-medium text-[#6b7854] mb-2">
-                    Transaction Date <span class="text-[#9cab84]">*</span>
+                <label for="transaction_date" class="block text-sm font-semibold text-blue-900 mb-1.5">
+                    Transaction Date <span class="text-blue-500">*</span>
                 </label>
-                <input type="date" id="transaction_date" name="transaction_date" value="{{ old('transaction_date', now()->format('Y-m-d')) }}" required class="w-full px-4 py-3 bg-[#faf8ed] border border-[#c5d89d]/50 text-[#2d2d2d] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c5d89d] focus:border-transparent transition">
+                <input type="date" id="transaction_date" name="transaction_date"
+                       value="{{ old('transaction_date', now()->format('Y-m-d')) }}" required
+                       class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                 @error('transaction_date')
-                    <p class="mt-1 text-sm text-[#c17b7b]">{{ $message }}</p>
+                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Submit Button -->
-            <div class="flex items-center justify-end gap-4 pt-4 border-t border-[#c5d89d]/30">
-                <a href="{{ route('transactions.index') }}" class="px-6 py-3 bg-[#faf8ed] border border-[#c5d89d]/50 text-[#6b7854] font-semibold rounded-xl hover:bg-[#c5d89d]/20 transition">
+            {{-- Actions --}}
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
+                <a href="{{ route('transactions.index') }}"
+                   class="px-5 py-2.5 bg-gray-50 border border-gray-200 text-gray-500 font-medium rounded-xl hover:bg-gray-100 transition">
                     Cancel
                 </a>
-                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] font-semibold rounded-xl transition shadow-lg border border-[#c5d89d]/50">
+                <button type="submit"
+                        class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition shadow-sm">
                     Create Transaction
                 </button>
             </div>
@@ -117,24 +127,22 @@
     </div>
 
     <script>
-        // Add visual feedback for radio buttons
-        document.querySelectorAll('input[name="type"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                document.getElementById('label-income').classList.remove('border-[#c5d89d]', 'bg-[#c5d89d]/20');
-                document.getElementById('label-expense').classList.remove('border-[#d9a3a3]', 'bg-[#d9a3a3]/20');
-                
-                if (this.value === 'income') {
-                    document.getElementById('label-income').classList.add('border-[#c5d89d]', 'bg-[#c5d89d]/20');
-                } else {
-                    document.getElementById('label-expense').classList.add('border-[#d9a3a3]', 'bg-[#d9a3a3]/20');
-                }
-            });
-        });
+        const incomeLabel  = document.getElementById('label-income');
+        const expenseLabel = document.getElementById('label-expense');
 
-        // Initialize based on old value
-        const oldType = document.querySelector('input[name="type"]:checked');
-        if (oldType) {
-            oldType.dispatchEvent(new Event('change'));
+        function updateTypeStyle(val) {
+            incomeLabel.classList.remove('border-emerald-500', 'bg-emerald-100');
+            expenseLabel.classList.remove('border-red-500', 'bg-red-100');
+            if (val === 'income')  incomeLabel.classList.add('border-emerald-500', 'bg-emerald-100');
+            if (val === 'expense') expenseLabel.classList.add('border-red-500', 'bg-red-100');
         }
+
+        document.querySelectorAll('input[name="type"]').forEach(r =>
+            r.addEventListener('change', () => updateTypeStyle(r.value))
+        );
+
+        const checked = document.querySelector('input[name="type"]:checked');
+        if (checked) updateTypeStyle(checked.value);
     </script>
+
 </x-app-layout>
