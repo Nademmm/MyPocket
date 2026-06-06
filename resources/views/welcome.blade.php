@@ -52,12 +52,13 @@
         /* Hero Section - Warm & Elegant */
         .hero {
             background: linear-gradient(135deg, #f4f1ea 0%, #fdfbf7 50%, #f0f4e8 100%);
-            padding: 8rem 10% 10rem;
+            padding: 4rem 10% 6rem; /* Even more compact padding */
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 85vh;
-            gap: 6rem;
+            height: auto; /* Changed to auto for better content fit */
+            min-height: 600px;
+            gap: 2rem; /* Reduced gap between text and image */
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -87,24 +88,38 @@
             content: none !important;
         }
 
-        .hero-content { flex: 1.2; max-width: 650px; position: relative; z-index: 10; }
+        .hero-content { 
+            flex: 1.2; 
+            max-width: 650px; 
+            position: relative; 
+            z-index: 10; 
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Pastikan semua sejajar kiri */
+            text-align: left;
+        }
         .hero h1 { 
             font-size: 4.8rem; 
             font-weight: 900; 
             color: #000000; 
             line-height: 1.05; 
-            margin-bottom: 2rem; 
+            margin-bottom: 0.5rem; /* Further reduced margin */
             letter-spacing: -0.04em; 
         }
         .hero p { 
             font-size: 1.35rem; 
             color: #444444; 
-            margin-bottom: 3.5rem; 
+            margin-bottom: 1.5rem; /* Further reduced margin */
             line-height: 1.7; 
             font-weight: 500;
             max-width: 550px;
         }
-        .hero-buttons { display: flex; gap: 1rem; }
+        .hero-buttons { 
+            display: flex; 
+            gap: 1rem; /* Reduced gap between buttons */
+            justify-content: flex-start; 
+            width: 100%;
+        }
         .btn { padding: 1.1rem 2.25rem; border-radius: 16px; font-weight: 700; text-decoration: none; transition: all 0.3s; display: inline-block; font-size: 1rem; cursor: pointer; text-align: center; }
         .btn-primary { background: var(--primary-dark); color: white; border: none; box-shadow: 0 10px 25px rgba(124, 144, 112, 0.25); }
         .btn-primary:hover { background: var(--secondary); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(124, 144, 112, 0.35); }
@@ -128,7 +143,7 @@
         .app-feature-item i { font-size: 1.1rem; margin-bottom: 0.5rem; display: block; color: var(--primary-dark); }
 
         /* Features Section */
-        .features { padding: 8rem 8%; background: #ffffff; position: relative; border-top: 1px solid #f0ede4; }
+        .features { padding: 8rem 10%; background: #ffffff; position: relative; border-top: 1px solid #f0ede4; }
         .section-title { text-align: center; margin-bottom: 5rem; }
         .section-title h2 { font-size: 3.5rem; color: var(--text-primary); margin-bottom: 1.25rem; font-weight: 900; letter-spacing: -0.03em; }
         .section-title p { color: var(--text-secondary); font-size: 1.25rem; max-width: 650px; margin: 0 auto; font-weight: 500; }
@@ -142,7 +157,7 @@
         .feature-content .subtitle { font-size: 0.8rem; color: var(--primary-dark); font-weight: 800; margin-bottom: 0.5rem; display: block; text-transform: uppercase; letter-spacing: 0.1em; }
 
         /* About Us Section */
-        .about-us { padding: 8rem 8%; background: #f4f1ea; display: flex; align-items: center; justify-content: space-between; gap: 6rem; border-top: 1px solid #eeebe3; }
+        .about-us { padding: 8rem 10%; background: #f4f1ea; display: flex; align-items: center; justify-content: space-between; gap: 6rem; border-top: 1px solid #eeebe3; }
         .about-content { flex: 1; }
         .about-badge { display: inline-block; background: white; color: var(--secondary); padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.9rem; font-weight: 800; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(137, 152, 109, 0.1); }
         .about-content h2 { font-size: 3.25rem; color: var(--text-primary); margin-bottom: 2rem; line-height: 1.1; font-weight: 900; letter-spacing: -0.02em; }
@@ -153,7 +168,7 @@
         .stat-item span { font-size: 0.95rem; color: var(--text-secondary); font-weight: 600; }
 
         /* Footer */
-        footer { background: var(--text-primary); color: white; padding: 6rem 8% 3rem; }
+        footer { background: var(--text-primary); color: white; padding: 6rem 10% 3rem; }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem; max-width: 1200px; margin: 0 auto 4rem; }
         .footer-section h4 { font-size: 1.25rem; margin-bottom: 2rem; font-weight: 800; color: var(--primary); }
         .footer-section ul { list-style: none; }
@@ -213,7 +228,6 @@
             <p>Lacak pengeluaran, atur anggaran, dan capai tujuan finansialmu dalam satu aplikasi yang cantik dan mudah digunakan.</p>
             <div class="hero-buttons">
                 <a href="{{ route('register') }}" class="btn btn-primary">Mulai Gratis Sekarang</a>
-                <a href="#" class="btn btn-secondary" onclick="showDemo(event)">Lihat Demo</a>
             </div>
         </div>
         <div class="hero-image">
@@ -286,7 +300,6 @@
     <!-- Tentang Kami Section -->
     <section class="about-us" id="about">
         <div class="about-content">
-            <span class="about-badge">Tentang MyPocket</span>
             <h2>Misi Kami Adalah Memberdayakan Finansial Anda</h2>
             <p>Kami percaya bahwa kebebasan finansial dimulai dari kesadaran akan setiap pengeluaran. MyPocket hadir sebagai sahabat yang membantu Anda membangun kebiasaan keuangan yang sehat.</p>
             
@@ -314,36 +327,37 @@
                 <h4>Produk</h4>
                 <ul>
                     <li><a href="#features">Fitur Utama</a></li>
-                    <li><a href="#">Keamanan</a></li>
-                    <li><a href="#">Pembaruan</a></li>
+                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ route('transactions.index') }}">Manajemen Transaksi</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Perusahaan</h4>
+                <h4>Fitur Unggulan</h4>
                 <ul>
+                    <li><a href="{{ route('targets.index') }}">Target Tabungan</a></li>
+                    <li><a href="{{ route('reminders.index') }}">Pengingat Tagihan</a></li>
+                    <li><a href="{{ route('diaries.index') }}">Buku Harian</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Akses Cepat</h4>
+                <ul>
+                    <li><a href="{{ route('login') }}">Masuk</a></li>
+                    <li><a href="{{ route('register') }}">Daftar Baru</a></li>
                     <li><a href="#about">Tentang Kami</a></li>
-                    <li><a href="#">Karir</a></li>
-                    <li><a href="#">Kontak</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Dukungan</h4>
+                <h4>Bantuan</h4>
                 <ul>
-                    <li><a href="#">Pusat Bantuan</a></li>
-                    <li><a href="#">Panduan Pengguna</a></li>
+                    <li><a href="mailto:support@mypocket.id">Hubungi Kami</a></li>
                     <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <ul>
                     <li><a href="#">Kebijakan Privasi</a></li>
-                    <li><a href="#">Syarat & Ketentuan</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2024 MyPocket. Dibuat dengan ❤️ untuk masa depan finansial yang lebih baik.
+            &copy; {{ date('Y') }} MyPocket. Dibuat dengan ❤️ untuk masa depan finansial yang lebih baik.
         </div>
     </footer>
 
