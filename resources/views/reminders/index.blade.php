@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between mb-2">
             <div>
                 <h1 class="text-4xl font-bold text-[#2d2d2d] mb-2">Reminders</h1>
-                <p class="text-[#89986d]">Never miss important financial events</p>
+                <p class="text-[#89986d]">Never miss important financial events (Total: {{ $reminders->total() }})</p>
             </div>
             <a href="{{ route('reminders.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] font-semibold rounded-xl transition transform hover:scale-105 active:scale-95 shadow-lg border border-[#c5d89d]/50">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@
                                         {{ $reminder->is_active ? 'Active' : 'Inactive' }}
                                     </span>
                                 </div>
-                                <p class="text-[#89986d] text-sm">{{ $reminder->description ?? 'No description' }}</p>
+                                <p class="text-[#89986d] text-sm">{{ $reminder->note ?? 'No description' }}</p>
                             </div>
                             <div class="flex gap-2">
                                 <a href="{{ route('reminders.edit', $reminder->id) }}" class="p-2 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] rounded-lg transition border border-[#9cab84]/40 shadow-sm">

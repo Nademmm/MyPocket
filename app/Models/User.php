@@ -93,6 +93,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Badge::class, 'user_badges')->withTimestamps()->withPivot('earned_at');
     }
 
+    public function updateBalance(): void
+    {
+        $income = $this->transactions()->where('type', 'income')->sum('amount');
+        $expense = $this->transactions()->where('type', 'expense')->sum('amount');
+        
+        $this->update(['total_saved' => $income - $expense]);
+    }
+
     /**
      * Check if user is admin.
      */

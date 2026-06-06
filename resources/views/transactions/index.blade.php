@@ -4,7 +4,7 @@
     <div class="mb-8 flex items-center justify-between">
         <div>
             <h1 class="text-3xl font-bold text-blue-900 mb-1">Transactions</h1>
-            <p class="text-gray-500 text-sm">Manage your income and expenses</p>
+            <p class="text-gray-500 text-sm">Manage your income and expenses (Total: {{ $transactions->total() }})</p>
         </div>
         <a href="{{ route('transactions.create') }}"
            class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition shadow-sm active:scale-95">

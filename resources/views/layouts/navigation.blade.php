@@ -19,6 +19,9 @@
                 </div>
             </div>
             <div class="hidden sm:flex sm:items-center sm:gap-4">
+                <div class="text-sm text-slate-400">
+                    {{ Auth::user()->email ?? '' }}
+                </div>
                 <span class="text-white font-semibold">{{ Auth::user()->name ?? 'Guest' }}</span>
             </div>
         </div>

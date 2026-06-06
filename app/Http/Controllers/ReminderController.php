@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reminder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReminderController extends Controller
 {
@@ -20,16 +22,27 @@ class ReminderController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'note' => 'nullable|string',
-            'remind_date' => 'required|date',
-            'repeat_type' => 'nullable|in:once,daily,weekly,monthly',
-            'is_active' => 'nullable|boolean',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'note' => 'nullable|string',
+                'remind_date' => 'required|date_format:Y-m-d\TH:i',
+                'repeat_type' => 'required|in:once,daily,weekly,monthly',
+                'is_active' => 'nullable|boolean',
+            ]);
 
-        Auth::user()->reminders()->create($validated);
-        return redirect()->route('reminders.index')->with('success', 'Reminder created successfully.');
+            if (!$request->has('is_active')) {
+                $validated['is_active'] = true;
+            }
+
+            $reminder = Auth::user()->reminders()->create($validated);
+            \Log::info('Reminder created: ' . $reminder->id . ' for user: ' . Auth::id());
+
+            return redirect()->route('reminders.index')->with('success', 'Reminder created successfully.');
+        } catch (\Exception $e) {
+            \Log::error('Reminder creation failed: ' . $e->getMessage());
+            return back()->withInput()->withErrors(['error' => 'Failed to create reminder: ' . $e->getMessage()]);
+        }
     }
 
     public function show(string $id)
@@ -51,10 +64,12 @@ class ReminderController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'note' => 'nullable|string',
-            'remind_date' => 'required|date',
-            'repeat_type' => 'nullable|in:once,daily,weekly,monthly',
+            'remind_date' => 'required|date_format:Y-m-d\TH:i',
+            'repeat_type' => 'required|in:once,daily,weekly,monthly',
             'is_active' => 'nullable|boolean',
         ]);
+
+        $validated['is_active'] = $request->has('is_active');
 
         $reminder->update($validated);
         return redirect()->route('reminders.index')->with('success', 'Reminder updated successfully.');

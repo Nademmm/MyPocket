@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -22,16 +23,27 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'amount' => 'required|numeric',
-            'type' => 'required|in:income,expense',
-            'category_id' => 'required|exists:categories,id',
-            'description' => 'nullable|string',
-            'transaction_date' => 'required|date',
-        ]);
+        try {
+            $validated = $request->validate([
+                'amount' => 'required|numeric',
+                'type' => 'required|in:income,expense',
+                'category_id' => 'required|exists:categories,id',
+                'description' => 'nullable|string',
+                'transaction_date' => 'required|date',
+            ]);
 
-        Auth::user()->transactions()->create($validated);
-        return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
+            DB::transaction(function () use ($validated) {
+                $user = Auth::user();
+                $transaction = $user->transactions()->create($validated);
+                $user->updateBalance();
+                \Log::info('Transaction created: ' . $transaction->id . ' for user: ' . $user->id);
+            });
+
+            return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
+        } catch (\Exception $e) {
+            \Log::error('Transaction creation failed: ' . $e->getMessage());
+            return back()->withInput()->withErrors(['error' => 'Failed to create transaction: ' . $e->getMessage()]);
+        }
     }
 
     public function show(string $id)
@@ -59,14 +71,23 @@ class TransactionController extends Controller
             'transaction_date' => 'required|date',
         ]);
 
-        $transaction->update($validated);
+        DB::transaction(function () use ($transaction, $validated) {
+            $transaction->update($validated);
+            Auth::user()->updateBalance();
+        });
+
         return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
 
     public function destroy(string $id)
     {
         $transaction = Auth::user()->transactions()->findOrFail($id);
-        $transaction->delete();
+        
+        DB::transaction(function () use ($transaction) {
+            $transaction->delete();
+            Auth::user()->updateBalance();
+        });
+
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
 }

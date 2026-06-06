@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class TransactionApiController extends BaseApiController
 {
@@ -25,7 +26,13 @@ class TransactionApiController extends BaseApiController
             'transaction_date' => 'required|date',
         ]);
 
-        $transaction = Auth::user()->transactions()->create($validated);
+        $transaction = DB::transaction(function () use ($validated) {
+            $user = Auth::user();
+            $transaction = $user->transactions()->create($validated);
+            $user->updateBalance();
+            return $transaction;
+        });
+
         return $this->sendResponse($transaction->load('category'), 'Transaction created successfully.');
     }
 
@@ -56,7 +63,11 @@ class TransactionApiController extends BaseApiController
             'transaction_date' => 'required|date',
         ]);
 
-        $transaction->update($validated);
+        DB::transaction(function () use ($transaction, $validated) {
+            $transaction->update($validated);
+            Auth::user()->updateBalance();
+        });
+
         return $this->sendResponse($transaction->load('category'), 'Transaction updated successfully.');
     }
 
@@ -68,7 +79,11 @@ class TransactionApiController extends BaseApiController
             return $this->sendError('Transaction not found.');
         }
 
-        $transaction->delete();
+        DB::transaction(function () use ($transaction) {
+            $transaction->delete();
+            Auth::user()->updateBalance();
+        });
+
         return $this->sendResponse([], 'Transaction deleted successfully.');
     }
 }
