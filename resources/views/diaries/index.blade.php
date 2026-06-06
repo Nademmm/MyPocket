@@ -1,13 +1,14 @@
 <x-app-layout title="Saving Diary">
+    <!-- Header -->
     <div class="mb-8">
         <div class="flex items-center justify-between mb-2">
             <div>
                 <h1 class="text-4xl font-bold text-[#2d2d2d] mb-2">Saving Diary</h1>
-                <p class="text-[#89986d]">Reflect on your financial journey</p>
+                <p class="text-[#89986d]">Reflect on your financial journey and growth</p>
             </div>
             <a href="{{ route('diaries.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] font-semibold rounded-xl transition transform hover:scale-105 active:scale-95 shadow-lg border border-[#c5d89d]/50">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
                 Write Entry
             </a>
@@ -41,35 +42,31 @@
 
     <!-- Diary Entries -->
     @if($diaries->count())
-        <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             @foreach($diaries as $diary)
-                <div class="bg-gradient-to-r from-white to-[#faf8ed] border border-[#c5d89d]/30 rounded-xl overflow-hidden hover:border-[#9cab84]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#c5d89d]/10 hover:-translate-y-0.5">
+                <div class="bg-gradient-to-br from-white to-[#faf8ed] border border-[#c5d89d]/30 rounded-2xl overflow-hidden hover:border-[#9cab84]/50 transition-all duration-300 hover:shadow-lg shadow-sm group">
                     <div class="p-6">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <div class="w-10 h-10 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] rounded-lg flex items-center justify-center border border-[#c5d89d]/50 shadow-sm">
-                                        <svg class="w-5 h-5 text-[#2d2d2d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-bold text-[#2d2d2d]">{{ $diary->title }}</h3>
-                                        <p class="text-[#89986d] text-sm">{{ $diary->diary_date->format('F d, Y') }}</p>
-                                    </div>
+                                <h3 class="text-xl font-bold text-[#2d2d2d] mb-1 line-clamp-1 group-hover:text-[#6b7854] transition-colors">{{ $diary->title }}</h3>
+                                <div class="flex items-center gap-2 text-[#89986d] text-xs">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    {{ $diary->diary_date->format('M d, Y') }}
                                 </div>
                             </div>
-                            <div class="flex gap-2">
-                                <a href="{{ route('diaries.edit', $diary->id) }}" class="p-2 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] rounded-lg transition border border-[#9cab84]/40 shadow-sm">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <a href="{{ route('diaries.edit', $diary->id) }}" class="p-2 bg-[#c5d89d]/20 text-[#6b7854] rounded-lg hover:bg-[#c5d89d]/40 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
                                 </a>
                                 <form action="{{ route('diaries.destroy', $diary->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="p-2 bg-gradient-to-br from-[#d9a3a3] to-[#c17b7b] hover:from-[#c17b7b] hover:to-[#a85a5a] text-white rounded-lg transition border border-[#c17b7b]/40 shadow-sm">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <button type="submit" class="p-2 bg-[#d9a3a3]/10 text-[#c17b7b] rounded-lg hover:bg-[#d9a3a3]/20 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
                                     </button>
@@ -77,16 +74,21 @@
                             </div>
                         </div>
                         
-                        <!-- Content Preview -->
-                        <p class="text-[#6b7854] leading-relaxed line-clamp-3">{{ Str::limit($diary->content, 200) }}</p>
+                        <p class="text-[#6b7854] text-sm leading-relaxed line-clamp-3 mb-4">
+                            {{ $diary->content }}
+                        </p>
                         
-                        <!-- Read More Link -->
-                        <a href="{{ route('diaries.show', $diary->id) }}" class="inline-flex items-center gap-1 mt-3 text-[#89986d] hover:text-[#6b7854] font-medium text-sm transition">
-                            Read full entry
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
-                        </a>
+                        <div class="pt-4 border-t border-[#c5d89d]/20 flex items-center justify-between">
+                            <a href="{{ route('diaries.show', $diary->id) }}" class="text-xs font-bold text-[#89986d] hover:text-[#6b7854] transition flex items-center gap-1">
+                                Read Entry
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                            <span class="text-[10px] text-[#9cab84] italic">
+                                Last updated {{ $diary->updated_at->diffForHumans() }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             @endforeach
@@ -98,15 +100,15 @@
         </div>
     @else
         <!-- Empty State -->
-        <div class="bg-gradient-to-br from-white to-[#faf8ed] border-2 border-dashed border-[#c5d89d]/40 rounded-2xl p-12 text-center shadow-xl">
-            <div class="w-16 h-16 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#9cab84]/50 shadow-inner">
-                <svg class="w-8 h-8 text-[#2d2d2d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-gradient-to-br from-white to-[#faf8ed] border-2 border-dashed border-[#c5d89d]/40 rounded-3xl p-16 text-center shadow-sm">
+            <div class="w-20 h-20 bg-[#c5d89d]/20 rounded-full flex items-center justify-center mx-auto mb-6 text-[#6b7854]">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                 </svg>
             </div>
-            <h3 class="text-xl font-bold text-[#2d2d2d] mb-2">No Diary Entries Yet</h3>
-            <p class="text-[#89986d] mb-6">Start writing your financial reflections today</p>
-            <a href="{{ route('diaries.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] font-semibold rounded-xl transition shadow-lg border border-[#c5d89d]/50">
+            <h3 class="text-2xl font-bold text-[#2d2d2d] mb-2">Your Financial Story</h3>
+            <p class="text-[#89986d] mb-8 max-w-sm mx-auto">Start writing your financial journey today. Reflecting on your spending habits is the first step to financial freedom.</p>
+            <a href="{{ route('diaries.create') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] font-bold rounded-xl transition transform hover:scale-105 active:scale-95 shadow-lg border border-[#c5d89d]/50">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>

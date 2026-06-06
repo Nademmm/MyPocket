@@ -118,6 +118,18 @@ class ReminderController extends Controller
         }
     }
 
+    public function toggleActive(string $id)
+    {
+        try {
+            $reminder = Auth::user()->reminders()->findOrFail($id);
+            $reminder->toggleActive();
+
+            return back()->with('success', 'Reminder status updated.');
+        } catch (Throwable $e) {
+            return back()->withErrors(['error' => 'Failed to update reminder status.']);
+        }
+    }
+
     private function validateReminder(Request $request): array
     {
         return $request->validate([

@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('transactions', TransactionController::class);
     Route::resource('targets', TargetController::class);
     Route::resource('reminders', ReminderController::class);
+    Route::patch('reminders/{reminder}/toggle-active', [ReminderController::class, 'toggleActive'])->name('reminders.toggle-active');
     Route::resource('badges', BadgeController::class)->only(['index']);
     Route::resource('diaries', SavingDiaryController::class);
 });
