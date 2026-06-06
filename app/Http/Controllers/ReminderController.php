@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reminder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class ReminderController extends Controller
 {
@@ -22,26 +22,32 @@ class ReminderController extends Controller
 
     public function store(Request $request)
     {
+        $user = $request->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
         try {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'note' => 'nullable|string',
-                'remind_date' => 'required|date_format:Y-m-d\TH:i',
-                'repeat_type' => 'required|in:once,daily,weekly,monthly',
-                'is_active' => 'nullable|boolean',
+            $validated = $this->validateReminder($request);
+            $validated['is_active'] = $request->has('is_active');
+
+            $reminder = $user->reminders()->create($validated);
+            \Log::info('Reminder created', [
+                'reminder_id' => $reminder->id,
+                'user_id' => $user->id,
             ]);
 
-            if (!$request->has('is_active')) {
-                $validated['is_active'] = true;
-            }
-
-            $reminder = Auth::user()->reminders()->create($validated);
-            \Log::info('Reminder created: ' . $reminder->id . ' for user: ' . Auth::id());
-
             return redirect()->route('reminders.index')->with('success', 'Reminder created successfully.');
-        } catch (\Exception $e) {
-            \Log::error('Reminder creation failed: ' . $e->getMessage());
-            return back()->withInput()->withErrors(['error' => 'Failed to create reminder: ' . $e->getMessage()]);
+        } catch (Throwable $e) {
+            \Log::error('Reminder creation failed', [
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->withInput()->withErrors([
+                'error' => 'Failed to create reminder. Please try again.',
+            ]);
         }
     }
 
@@ -59,26 +65,67 @@ class ReminderController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $reminder = Auth::user()->reminders()->findOrFail($id);
-        
-        $validated = $request->validate([
+        $user = $request->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        try {
+            $reminder = $user->reminders()->findOrFail($id);
+            $validated = $this->validateReminder($request);
+            $validated['is_active'] = $request->has('is_active');
+
+            $reminder->update($validated);
+
+            return redirect()->route('reminders.index')->with('success', 'Reminder updated successfully.');
+        } catch (Throwable $e) {
+            \Log::error('Reminder update failed', [
+                'reminder_id' => $id,
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->withInput()->withErrors([
+                'error' => 'Failed to update reminder. Please try again.',
+            ]);
+        }
+    }
+
+    public function destroy(string $id)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        try {
+            $reminder = $user->reminders()->findOrFail($id);
+            $reminder->delete();
+
+            return redirect()->route('reminders.index')->with('success', 'Reminder deleted successfully.');
+        } catch (Throwable $e) {
+            \Log::error('Reminder delete failed', [
+                'reminder_id' => $id,
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return redirect()->route('reminders.index')->withErrors([
+                'error' => 'Failed to delete reminder. Please try again.',
+            ]);
+        }
+    }
+
+    private function validateReminder(Request $request): array
+    {
+        return $request->validate([
             'title' => 'required|string|max:255',
             'note' => 'nullable|string',
             'remind_date' => 'required|date_format:Y-m-d\TH:i',
             'repeat_type' => 'required|in:once,daily,weekly,monthly',
             'is_active' => 'nullable|boolean',
         ]);
-
-        $validated['is_active'] = $request->has('is_active');
-
-        $reminder->update($validated);
-        return redirect()->route('reminders.index')->with('success', 'Reminder updated successfully.');
-    }
-
-    public function destroy(string $id)
-    {
-        $reminder = Auth::user()->reminders()->findOrFail($id);
-        $reminder->delete();
-        return redirect()->route('reminders.index')->with('success', 'Reminder deleted successfully.');
     }
 }

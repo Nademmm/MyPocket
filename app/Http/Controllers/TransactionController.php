@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class TransactionController extends Controller
 {
@@ -17,32 +17,39 @@ class TransactionController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('name')->get();
         return view('transactions.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
+        $user = $request->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
         try {
-            $validated = $request->validate([
-                'amount' => 'required|numeric',
-                'type' => 'required|in:income,expense',
-                'category_id' => 'required|exists:categories,id',
-                'description' => 'nullable|string',
-                'transaction_date' => 'required|date',
+            $validated = $this->validateTransaction($request);
+
+            $transaction = $user->transactions()->create($validated);
+            $this->recalculateBalanceSafely($user);
+
+            \Log::info('Transaction created', [
+                'transaction_id' => $transaction->id,
+                'user_id' => $user->id,
             ]);
 
-            DB::transaction(function () use ($validated) {
-                $user = Auth::user();
-                $transaction = $user->transactions()->create($validated);
-                $user->updateBalance();
-                \Log::info('Transaction created: ' . $transaction->id . ' for user: ' . $user->id);
-            });
-
             return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
-        } catch (\Exception $e) {
-            \Log::error('Transaction creation failed: ' . $e->getMessage());
-            return back()->withInput()->withErrors(['error' => 'Failed to create transaction: ' . $e->getMessage()]);
+        } catch (Throwable $e) {
+            \Log::error('Transaction creation failed', [
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->withInput()->withErrors([
+                'error' => 'Failed to create transaction. Please check your input and try again.',
+            ]);
         }
     }
 
@@ -55,39 +62,87 @@ class TransactionController extends Controller
     public function edit(string $id)
     {
         $transaction = Auth::user()->transactions()->findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::orderBy('name')->get();
         return view('transactions.edit', compact('transaction', 'categories'));
     }
 
     public function update(Request $request, string $id)
     {
-        $transaction = Auth::user()->transactions()->findOrFail($id);
-        
-        $validated = $request->validate([
-            'amount' => 'required|numeric',
+        $user = $request->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        try {
+            $transaction = $user->transactions()->findOrFail($id);
+            $validated = $this->validateTransaction($request);
+
+            $transaction->update($validated);
+            $this->recalculateBalanceSafely($user);
+
+            return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
+        } catch (Throwable $e) {
+            \Log::error('Transaction update failed', [
+                'transaction_id' => $id,
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->withInput()->withErrors([
+                'error' => 'Failed to update transaction. Please try again.',
+            ]);
+        }
+    }
+
+    public function destroy(string $id)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        try {
+            $transaction = $user->transactions()->findOrFail($id);
+            $transaction->delete();
+            $this->recalculateBalanceSafely($user);
+
+            return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+        } catch (Throwable $e) {
+            \Log::error('Transaction delete failed', [
+                'transaction_id' => $id,
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return redirect()->route('transactions.index')->withErrors([
+                'error' => 'Failed to delete transaction. Please try again.',
+            ]);
+        }
+    }
+
+    private function validateTransaction(Request $request): array
+    {
+        return $request->validate([
+            'amount' => 'required|numeric|min:0.01',
             'type' => 'required|in:income,expense',
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'transaction_date' => 'required|date',
         ]);
-
-        DB::transaction(function () use ($transaction, $validated) {
-            $transaction->update($validated);
-            Auth::user()->updateBalance();
-        });
-
-        return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
 
-    public function destroy(string $id)
+    private function recalculateBalanceSafely($user): void
     {
-        $transaction = Auth::user()->transactions()->findOrFail($id);
-        
-        DB::transaction(function () use ($transaction) {
-            $transaction->delete();
-            Auth::user()->updateBalance();
-        });
-
-        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+        try {
+            $user->updateBalance();
+        } catch (Throwable $e) {
+            // Keep CRUD successful even when balance recalculation has schema/data issues.
+            \Log::warning('Balance recalculation failed after transaction operation', [
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }

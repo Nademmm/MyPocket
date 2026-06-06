@@ -28,16 +28,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthApiController::class, 'logout']);
 
     // Transactions
-    Route::apiResource('transactions', TransactionApiController::class);
+    Route::apiResource('transactions', TransactionApiController::class)
+        ->names('api.transactions');
 
     // Targets
-    Route::apiResource('targets', TargetApiController::class);
+    Route::apiResource('targets', TargetApiController::class)
+        ->names('api.targets');
 
     // Reminders
-    Route::apiResource('reminders', ReminderApiController::class);
+    Route::apiResource('reminders', ReminderApiController::class)
+        ->names('api.reminders');
 
     // Saving Diaries
-    Route::apiResource('diaries', SavingDiaryApiController::class);
+    Route::apiResource('diaries', SavingDiaryApiController::class)
+        ->names('api.diaries');
 
     // Badges
     Route::get('/badges', [BadgeApiController::class, 'index']);

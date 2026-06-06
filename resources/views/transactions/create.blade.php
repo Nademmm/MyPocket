@@ -17,6 +17,12 @@
 
     {{-- Form Card --}}
     <div class="bg-white rounded-2xl p-6 md:p-8 shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+        @if($errors->has('error'))
+            <div class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {{ $errors->first('error') }}
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('transactions.store') }}" class="space-y-6">
             @csrf
 

@@ -5,6 +5,12 @@
             <p class="text-[#89986d]">Reflect on your financial journey</p>
         </div>
         <div class="bg-gradient-to-br from-white to-[#faf8ed] border border-[#c5d89d]/30 rounded-2xl p-6 md:p-8 shadow-xl">
+            @if($errors->has('error'))
+                <div class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {{ $errors->first('error') }}
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('diaries.store') }}" class="space-y-6">
                 @csrf
                 <div>

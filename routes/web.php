@@ -18,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('transactions', TransactionController::class);
     Route::resource('targets', TargetController::class);
     Route::resource('reminders', ReminderController::class);
-    Route::resource('badges', BadgeController::class);
+    Route::resource('badges', BadgeController::class)->only(['index']);
     Route::resource('diaries', SavingDiaryController::class);
 });
 

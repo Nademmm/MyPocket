@@ -34,6 +34,12 @@
         </div>
     @endif
 
+    @if($errors->has('error'))
+        <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {{ $errors->first('error') }}
+        </div>
+    @endif
+
     {{-- Transactions list --}}
     @if($transactions->count())
         <div class="bg-white rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.05)] overflow-hidden">

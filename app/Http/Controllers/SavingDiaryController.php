@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SavingDiary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class SavingDiaryController extends Controller
 {
@@ -25,20 +25,31 @@ class SavingDiaryController extends Controller
 
     public function store(Request $request)
     {
+        $user = $request->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
         try {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string|min:10',
-                'diary_date' => 'required|date',
+            $validated = $this->validateDiary($request);
+
+            $diary = $user->diaries()->create($validated);
+            \Log::info('Diary created', [
+                'diary_id' => $diary->id,
+                'user_id' => $user->id,
             ]);
 
-            $diary = Auth::user()->diaries()->create($validated);
-            \Log::info('Diary created: ' . $diary->id . ' for user: ' . Auth::id());
-
             return redirect()->route('diaries.index')->with('success', 'Diary entry created successfully!');
-        } catch (\Exception $e) {
-            \Log::error('Diary creation failed: ' . $e->getMessage());
-            return back()->withInput()->withErrors(['error' => 'Failed to create diary entry: ' . $e->getMessage()]);
+        } catch (Throwable $e) {
+            \Log::error('Diary creation failed', [
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->withInput()->withErrors([
+                'error' => 'Failed to create diary entry. Please try again.',
+            ]);
         }
     }
 
@@ -56,24 +67,64 @@ class SavingDiaryController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $diary = Auth::user()->diaries()->findOrFail($id);
+        $user = $request->user();
 
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|min:10',
-            'diary_date' => 'required|date',
-        ]);
+        if (!$user) {
+            return redirect()->route('login');
+        }
 
-        $diary->update($validated);
+        try {
+            $diary = $user->diaries()->findOrFail($id);
+            $validated = $this->validateDiary($request);
 
-        return redirect()->route('diaries.index')->with('success', 'Diary entry updated successfully!');
+            $diary->update($validated);
+
+            return redirect()->route('diaries.index')->with('success', 'Diary entry updated successfully!');
+        } catch (Throwable $e) {
+            \Log::error('Diary update failed', [
+                'diary_id' => $id,
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->withInput()->withErrors([
+                'error' => 'Failed to update diary entry. Please try again.',
+            ]);
+        }
     }
 
     public function destroy(string $id)
     {
-        $diary = Auth::user()->diaries()->findOrFail($id);
-        $diary->delete();
+        $user = Auth::user();
 
-        return redirect()->route('diaries.index')->with('success', 'Diary entry deleted successfully!');
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        try {
+            $diary = $user->diaries()->findOrFail($id);
+            $diary->delete();
+
+            return redirect()->route('diaries.index')->with('success', 'Diary entry deleted successfully!');
+        } catch (Throwable $e) {
+            \Log::error('Diary delete failed', [
+                'diary_id' => $id,
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return redirect()->route('diaries.index')->withErrors([
+                'error' => 'Failed to delete diary entry. Please try again.',
+            ]);
+        }
+    }
+
+    private function validateDiary(Request $request): array
+    {
+        return $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|min:10',
+            'diary_date' => 'required|date',
+        ]);
     }
 }
