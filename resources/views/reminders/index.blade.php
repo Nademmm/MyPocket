@@ -83,11 +83,6 @@
                             <div>
                                 <p class="text-[10px] uppercase tracking-wider text-[#9cab84] mb-1 font-bold">Frequency</p>
                                 <p class="text-sm font-bold text-[#2d2d2d] capitalize">{{ $reminder->repeat_type ?? 'One-time' }}</p>
-                                @if($reminder->remind_date->isFuture())
-                                    <p class="text-[10px] text-[#6b7854] font-medium">In {{ round(max(0, $reminder->remind_date->diffInDays(now()))) }} days</p>
-                                @else
-                                    <p class="text-[10px] text-[#c17b7b] font-medium">Past due</p>
-                                @endif
                             </div>
                         </div>
                         

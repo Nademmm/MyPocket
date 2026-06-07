@@ -4,7 +4,7 @@
         <div class="mb-10 flex items-center justify-between">
             <div>
                 <h1 class="text-3xl font-black text-[#2d2d2d] mb-2 tracking-tight">Write Your Diary.</h1>
-                <p class="text-[#89986d] font-medium">Reflect on your financial journey today.</p>
+                <p class="text-[#89986d] font-medium">Reflect on your financial journey today.</p><br>
             </div>
             <a href="{{ route('diaries.index') }}" class="flex items-center gap-2 px-4 py-2 bg-white border border-[#c5d89d]/50 text-[#89986d] hover:text-[#6b7854] hover:bg-[#f8faf2] rounded-xl transition-all shadow-sm group">
                 <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

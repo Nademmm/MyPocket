@@ -16,6 +16,7 @@
             </a>
         </div>
     </div>
+    <br>
 
     <!-- Success Message -->
     @if($message = Session::get('success'))

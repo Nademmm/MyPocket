@@ -7,15 +7,43 @@
         }
     @endphp
 
+    <div class="welcome-hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="date-badge">
+                    <i class="far fa-calendar-alt mr-2"></i> {{ now()->format('l, d F Y') }}
+                </div>
+                <h1 class="hero-greeting">
+                    Welcome back, <br>
+                    <span class="text-theme">{{ Auth::user()->name }}</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Ready to manage your <span class="highlight">finances</span> today? 
+                    Keep track of your goals and maintain a healthy balance.
+                </p>
+                <div class="quick-actions">
+                    <a href="{{ route('transactions.create') }}" class="btn-action btn-primary-theme">
+                        <div class="btn-icon"><i class="fas fa-plus"></i></div>
+                        Add Transaction
+                    </a>
+                    <a href="{{ route('diaries.create') }}" class="btn-action btn-secondary-theme">
+                        <div class="btn-icon"><i class="fas fa-pen-fancy"></i></div>
+                        Write Diary
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- Stats Cards --}}
     <div class="stats-grid">
         <div class="stat-card income-card">
             <div class="stat-card-inner">
                 <div class="stat-info">
-                    <span class="stat-label">Total Pendapatan</span>
+                    <span class="stat-label">Total Income</span>
                     <h2 class="stat-value">Rp {{ number_format($income, 0, ',', '.') }}</h2>
                     <div class="stat-trend trend-up">
-                        <i class="fas fa-chart-line mr-1"></i> <span>Bulan ini</span>
+                        <i class="fas fa-chart-line mr-1"></i> <span>This month</span>
                     </div>
                 </div>
                 <div class="stat-icon-box bg-emerald-100 text-emerald-600">
@@ -27,10 +55,10 @@
         <div class="stat-card expense-card">
             <div class="stat-card-inner">
                 <div class="stat-info">
-                    <span class="stat-label">Total Pengeluaran</span>
+                    <span class="stat-label">Total Expenses</span>
                     <h2 class="stat-value">Rp {{ number_format($expense, 0, ',', '.') }}</h2>
                     <div class="stat-trend trend-down">
-                        <i class="fas fa-chart-line mr-1"></i> <span>Bulan ini</span>
+                        <i class="fas fa-chart-line mr-1"></i> <span>This month</span>
                     </div>
                 </div>
                 <div class="stat-icon-box bg-rose-100 text-rose-600">
@@ -42,11 +70,11 @@
         <div class="stat-card balance-card">
             <div class="stat-card-inner">
                 <div class="stat-info">
-                    <span class="stat-label">Saldo Aktif</span>
+                    <span class="stat-label">Active Balance</span>
                     <h2 class="stat-value">Rp {{ number_format($balance, 0, ',', '.') }}</h2>
                     <div class="stat-trend {{ $balance >= 0 ? 'trend-up' : 'trend-down' }}">
                         <i class="fas fa-{{ $balance >= 0 ? 'shield-check' : 'triangle-exclamation' }} mr-1"></i> 
-                        <span>{{ $balance >= 0 ? 'Dompet Aman' : 'Defisit' }}</span>
+                        <span>{{ $balance >= 0 ? 'Wallet Safe' : 'Deficit' }}</span>
                     </div>
                 </div>
                 <div class="stat-icon-box bg-sky-100 text-sky-600">
@@ -58,7 +86,7 @@
         <div class="stat-card savings-card">
             <div class="stat-card-inner">
                 <div class="stat-info">
-                    <span class="stat-label">Total Tabungan</span>
+                    <span class="stat-label">Total Savings</span>
                     <h2 class="stat-value">Rp {{ number_format($totalSavings, 0, ',', '.') }}</h2>
                     <div class="stat-trend trend-neutral">
                         <i class="fas fa-star text-amber-400 mr-1"></i> <span>Level {{ Auth::user()->level }}</span>
@@ -78,10 +106,10 @@
             <div class="card-header-premium">
                 <div class="card-title-group">
                     <div class="card-icon-main"><i class="fas fa-history text-theme"></i></div>
-                    <h3 class="card-title-premium">Transaksi Terakhir</h3>
+                    <h3 class="card-title-premium">Recent Transactions</h3>
                 </div>
                 <a href="{{ route('transactions.index') }}" class="btn-link">
-                    Lihat Semua <i class="fas fa-arrow-right ml-2"></i>
+                    View All <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
 
@@ -111,7 +139,7 @@
                 @else
                     <div class="empty-state">
                         <div class="empty-icon"><i class="fas fa-receipt"></i></div>
-                        <p>Belum ada transaksi</p>
+                        <p>No transactions yet</p>
                     </div>
                 @endif
             </div>
@@ -122,9 +150,9 @@
             <div class="card-header-premium">
                 <div class="card-title-group">
                     <div class="card-icon-main"><i class="fas fa-bullseye text-theme"></i></div>
-                    <h3 class="card-title-premium">Target Tabungan</h3>
+                    <h3 class="card-title-premium">Savings Targets</h3>
                 </div>
-                <a href="{{ route('targets.create') }}" class="btn-icon-only" title="Tambah Target">
+                <a href="{{ route('targets.create') }}" class="btn-icon-only" title="Add Target">
                     <i class="fas fa-plus"></i>
                 </a>
             </div>
@@ -154,7 +182,7 @@
                 @else
                     <div class="empty-state">
                         <div class="empty-icon"><i class="fas fa-bullseye"></i></div>
-                        <p>Belum ada target</p>
+                        <p>No targets yet</p>
                     </div>
                 @endif
             </div>
@@ -202,11 +230,19 @@
 
         .hero-content {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             gap: 3rem;
             position: relative;
             z-index: 2;
+            text-align: left;
+        }
+
+        .hero-text {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .date-badge {

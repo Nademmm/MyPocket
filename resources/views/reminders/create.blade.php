@@ -47,10 +47,6 @@
                         <p class="mt-2 text-sm text-[#c17b7b]">{{ $message }}</p>
                     @enderror
                 </div>
-                <div class="flex items-center gap-3 p-3 bg-[#c5d89d]/20 rounded-xl border border-[#c5d89d]/40">
-                    <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }} class="w-5 h-5 text-[#c5d89d] bg-[#faf8ed] border-[#c5d89d]/50 rounded focus:ring-[#c5d89d]">
-                    <label for="is_active" class="text-[#2d2d2d] font-medium">Active</label>
-                </div>
                 <div class="flex gap-3 pt-6 border-t border-[#c5d89d]/30">
                     <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] font-semibold rounded-xl transition shadow-lg border border-[#c5d89d]/50">Create Reminder</button>
                     <a href="{{ route('reminders.index') }}" class="flex-1 px-6 py-3 bg-[#faf8ed] hover:bg-[#c5d89d]/20 border border-[#c5d89d]/50 text-[#6b7854] hover:text-[#2d2d2d] text-center font-semibold rounded-xl transition">Cancel</a>

@@ -61,12 +61,6 @@
                         @endif
                     </span>
                 </div>
-                <div class="bg-[#faf8ed] rounded-xl p-4 border border-[#c5d89d]/40">
-                    <p class="text-xs text-[#9cab84] uppercase tracking-wider font-medium mb-1">Days Until</p>
-                    <p class="text-lg font-semibold {{ $reminder->remind_date->isFuture() ? 'text-[#6b7854]' : 'text-[#c17b7b]' }}">{{ round(max(0, $reminder->remind_date->diffInDays(now()))) }} days</p>
-                </div>
-
-
             </div>
 
             <!-- Metadata -->

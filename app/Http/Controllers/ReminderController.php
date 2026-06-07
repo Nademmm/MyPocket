@@ -30,7 +30,8 @@ class ReminderController extends Controller
 
         try {
             $validated = $this->validateReminder($request);
-            $validated['is_active'] = $request->has('is_active');
+            // Default to active when creating
+            $validated['is_active'] = true;
 
             $reminder = $user->reminders()->create($validated);
             \Log::info('Reminder created', [
