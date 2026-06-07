@@ -649,9 +649,9 @@
             transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .bg-success { background: linear-gradient(90deg, #10b981, #34d399); }
-        .bg-info { background: linear-gradient(90deg, #0ea5e9, #38bdf8); }
-        .bg-warning { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .bg-success { background: #10b981; }
+        .bg-info { background: #0ea5e9; }
+        .bg-warning { background: #f59e0b; }
 
         .target-footer-premium {
             margin-top: 0.75rem;

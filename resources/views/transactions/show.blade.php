@@ -59,16 +59,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Category</p>
-                <p class="text-base font-semibold text-blue-900">{{ $transaction->category->name ?? 'Unknown' }}</p>
-            </div>
-
-            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Transaction Date</p>
                 <p class="text-base font-semibold text-blue-900">{{ $transaction->transaction_date->format('F d, Y') }}</p>
             </div>
 
-            <div class="md:col-span-2 bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Description</p>
                 <p class="text-base text-gray-800">{{ $transaction->description ?? '—' }}</p>
             </div>

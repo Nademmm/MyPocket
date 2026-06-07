@@ -45,11 +45,10 @@
                 </div>
                 
                 <!-- Progress Bar -->
-                <div class="relative w-full bg-[#f6f0d7] rounded-full h-6 overflow-hidden border-2 border-[#c5d89d]/40 shadow-inner">
-                    <div class="h-full rounded-full transition-all duration-500 ease-out relative overflow-hidden flex items-center justify-end pr-2" 
-                         style="width: {{ $percentage }}%; background: linear-gradient(90deg, #c5d89d 0%, #9cab84 50%, #89986d 100%);">
+                <div class="relative w-full bg-[#c5d89d]/20 rounded-full h-6 overflow-hidden border-2 border-[#c5d89d]/40 shadow-inner">
+                    <div class="h-full bg-[#89986d] rounded-full transition-all duration-500 ease-out relative flex items-center justify-end pr-2" 
+                         style="width: {{ $percentage }}%;">
                         <span class="text-white text-xs font-bold">{{ round($percentage, 1) }}%</span>
-                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
                     </div>
                 </div>
             </div>

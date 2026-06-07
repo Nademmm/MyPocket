@@ -48,7 +48,6 @@
                     <thead>
                         <tr class="bg-[#c5d89d]/10 border-b border-[#c5d89d]/30 text-left">
                             <th class="px-6 py-4 text-xs font-bold text-[#6b7854] uppercase tracking-wider">Transaction</th>
-                            <th class="px-6 py-4 text-xs font-bold text-[#6b7854] uppercase tracking-wider">Category</th>
                             <th class="px-6 py-4 text-xs font-bold text-[#6b7854] uppercase tracking-wider">Date</th>
                             <th class="px-6 py-4 text-xs font-bold text-[#6b7854] uppercase tracking-wider text-right">Amount</th>
                             <th class="px-6 py-4 text-xs font-bold text-[#6b7854] uppercase tracking-wider text-right">Actions</th>
@@ -72,14 +71,8 @@
                                         <p class="text-sm font-semibold text-[#2d2d2d] truncate max-w-[200px]">
                                             {{ $transaction->description ?: 'No description' }}
                                         </p>
-                                        <span class="inline-block px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider {{ $transaction->type == 'income' ? 'bg-[#c5d89d]/30 text-[#6b7854]' : 'bg-[#d9a3a3]/20 text-[#c17b7b]' }}">
-                                            {{ $transaction->type }}
-                                        </span>
                                     </div>
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-[#89986d]">{{ $transaction->category->name ?? 'Uncategorized' }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-[#89986d]">
                                 {{ $transaction->transaction_date->format('M d, Y') }}
