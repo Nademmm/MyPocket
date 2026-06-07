@@ -5,7 +5,6 @@
         if ($spacePos = strpos(Auth::user()->name, ' ')) {
             $initials .= substr(Auth::user()->name, $spacePos + 1, 1);
         }
-        $totalSaved = Auth::user()->total_saved ?? 0;
     @endphp
 
     {{-- Stats Cards --}}
@@ -60,7 +59,7 @@
             <div class="stat-card-inner">
                 <div class="stat-info">
                     <span class="stat-label">Total Tabungan</span>
-                    <h2 class="stat-value">Rp {{ number_format($totalSaved, 0, ',', '.') }}</h2>
+                    <h2 class="stat-value">Rp {{ number_format($totalSavings, 0, ',', '.') }}</h2>
                     <div class="stat-trend trend-neutral">
                         <i class="fas fa-star text-amber-400 mr-1"></i> <span>Level {{ Auth::user()->level }}</span>
                     </div>
@@ -386,27 +385,33 @@
         .stat-card-inner {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             position: relative;
             z-index: 2;
         }
 
+        .stat-info {
+            flex: 1;
+            padding-right: 1rem;
+        }
+
         .stat-label {
             color: var(--theme-slate);
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.8rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             display: block;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .stat-value {
-            font-size: 1.85rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: var(--theme-charcoal);
             letter-spacing: -0.02em;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
         }
 
         .stat-trend {

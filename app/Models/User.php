@@ -95,10 +95,13 @@ class User extends Authenticatable
 
     public function updateBalance(): void
     {
-        $income = $this->transactions()->where('type', 'income')->sum('amount');
-        $expense = $this->transactions()->where('type', 'expense')->sum('amount');
+        $income = $this->totalIncome();
+        $expense = $this->totalExpenses();
+        $savings = $this->totalSavings();
         
-        $this->update(['total_saved' => $income - $expense]);
+        // This method seems to be used to refresh cached values if needed, 
+        // but let's make it consistent with the new logic.
+        $this->update(['total_saved' => $savings]);
     }
 
     /**
@@ -130,10 +133,18 @@ class User extends Authenticatable
     }
 
     /**
-     * Get balance = income - expenses.
+     * Calculate total savings from all targets.
+     */
+    public function totalSavings(): float
+    {
+        return $this->targets()->sum('current_amount');
+    }
+
+    /**
+     * Get balance = (income - expenses) - savings.
      */
     public function getBalance(): float
     {
-        return $this->totalIncome() - $this->totalExpenses();
+        return $this->totalIncome() - $this->totalExpenses() - $this->totalSavings();
     }
 }
