@@ -7,29 +7,41 @@
         }
     @endphp
 
-    <div class="welcome-hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <div class="date-badge">
+    <div class="welcome-hero" style="background: linear-gradient(135deg, #ffffff 0%, #fdfdfa 100%) !important; border-radius: 24px !important; padding: 3rem !important; margin-bottom: 2.5rem !important; border: 1px solid #f1f5f9 !important; position: relative !important; overflow: hidden !important; text-align: left !important; display: block !important;">
+        <div class="hero-content" style="display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: flex-start !important; gap: 4rem !important; position: relative !important; z-index: 2 !important; text-align: left !important; width: 100% !important;">
+            <div class="hero-text" style="flex: 1 1 500px !important; text-align: left !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important;">
+                <div class="date-badge" style="display: inline-flex !important; align-items: center !important; padding: 0.5rem 1.25rem !important; background: #faf8ed !important; color: #89986d !important; border-radius: 50px !important; font-size: 0.85rem !important; font-weight: 800 !important; margin-bottom: 2rem !important; border: 1px solid rgba(197, 216, 157, 0.3) !important;">
                     <i class="far fa-calendar-alt mr-2"></i> {{ now()->format('l, d F Y') }}
                 </div>
-                <h1 class="hero-greeting">
+                <h1 class="hero-greeting" style="font-size: 3.5rem !important; font-weight: 900 !important; color: #2d2d2d !important; margin-bottom: 1.5rem !important; letter-spacing: -0.05em !important; line-height: 1.1 !important; text-align: left !important;">
                     Welcome back, <br>
-                    <span class="text-theme">{{ Auth::user()->name }}</span>
+                    <span style="color: #89986d !important;">{{ Auth::user()->name }}</span>
                 </h1>
-                <p class="hero-subtitle">
-                    Ready to manage your <span class="highlight">finances</span> today? 
+                <p class="hero-subtitle" style="color: #64748b !important; font-size: 1.15rem !important; line-height: 1.7 !important; margin-bottom: 3rem !important; text-align: left !important; max-width: 500px !important;">
+                    Ready to manage your <span style="color: #2d2d2d !important; font-weight: 800 !important; background: linear-gradient(to bottom, transparent 60%, rgba(197, 216, 157, 0.3) 60%) !important;">finances</span> today? 
                     Keep track of your goals and maintain a healthy balance.
                 </p>
-                <div class="quick-actions">
-                    <a href="{{ route('transactions.create') }}" class="btn-action btn-primary-theme">
-                        <div class="btn-icon"><i class="fas fa-plus"></i></div>
+                <div class="quick-actions" style="display: flex !important; gap: 1.5rem !important; justify-content: flex-start !important; width: 100% !important;">
+                    <a href="{{ route('transactions.create') }}" class="btn-action" style="padding: 1rem 2rem !important; border-radius: 18px !important; font-weight: 800 !important; display: inline-flex !important; align-items: center !important; gap: 1rem !important; background: #2d2d2d !important; color: white !important; text-decoration: none !important; box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;">
+                        <div style="width: 24px; height: 24px; display: flex !important; align-items: center !important; justify-content: center !important; background: rgba(255,255,255,0.2) !important; border-radius: 6px !important;"><i class="fas fa-plus"></i></div>
                         Add Transaction
                     </a>
-                    <a href="{{ route('diaries.create') }}" class="btn-action btn-secondary-theme">
-                        <div class="btn-icon"><i class="fas fa-pen-fancy"></i></div>
+                    <a href="{{ route('diaries.create') }}" class="btn-action" style="padding: 1rem 2rem !important; border-radius: 18px !important; font-weight: 800 !important; display: inline-flex !important; align-items: center !important; gap: 1rem !important; background: white !important; color: #2d2d2d !important; border: 2px solid #f1f5f9 !important; text-decoration: none !important;">
+                        <div style="width: 24px; height: 24px; display: flex !important; align-items: center !important; justify-content: center !important; background: #faf8ed !important; border-radius: 6px !important; color: #89986d !important;"><i class="fas fa-pen-fancy"></i></div>
                         Write Diary
                     </a>
+                </div>
+            </div>
+
+            <div class="hero-illustration hidden lg:flex" style="flex: 1 1 350px !important; display: flex !important; justify-content: flex-end !important; align-items: center !important; position: relative !important;">
+                <div class="illustration-container" style="position: relative !important; width: 350px !important; height: 350px !important; display: flex !important; align-items: center !important; justify-content: center !important;">
+                    <div class="floating-icon" style="position: absolute !important; top: 0 !important; right: 0 !important; width: 60px !important; height: 60px !important; background: white !important; border-radius: 20px !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important; color: #89986d !important; font-size: 1.5rem !important; z-index: 10 !important;"><i class="fas fa-wallet"></i></div>
+                    <div class="floating-icon" style="position: absolute !important; bottom: 10% !important; left: -5% !important; width: 55px !important; height: 55px !important; background: white !important; border-radius: 18px !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important; color: #89986d !important; font-size: 1.3rem !important; z-index: 10 !important;"><i class="fas fa-chart-pie"></i></div>
+                    <div class="floating-icon" style="position: absolute !important; top: 30% !important; left: -15% !important; width: 50px !important; height: 50px !important; background: white !important; border-radius: 15px !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important; color: #89986d !important; font-size: 1.2rem !important; z-index: 10 !important;"><i class="fas fa-piggy-bank"></i></div>
+                    <div class="main-illustration" style="position: relative !important; z-index: 5 !important;">
+                        <div class="circle-bg" style="position: absolute !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; width: 320px !important; height: 320px !important; background: linear-gradient(135deg, #faf8ed 0%, #ffffff 100%) !important; border-radius: 50% !important; z-index: -1 !important; border: 1px solid rgba(197, 216, 157, 0.2) !important;"></div>
+                        <img src="{{ asset('images/fallkoin.jpg') }}" alt="Illustration" class="hero-img" style="width: 260px !important; height: 260px !important; object-fit: cover !important; border-radius: 50px !important; box-shadow: 25px 25px 70px rgba(0,0,0,0.07) !important; transform: rotate(6deg) !important;">
+                    </div>
                 </div>
             </div>
         </div>
@@ -205,46 +217,8 @@
             --shadow-btn: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* Hero Section Refined */
-        .welcome-hero {
-            background: linear-gradient(135deg, #ffffff 0%, #fdfdfa 100%);
-            border-radius: var(--radius-xl);
-            padding: 2.5rem 3rem;
-            margin-bottom: 2.5rem;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid #f1f5f9;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .welcome-hero::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            left: -50px;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, #c5d89d1a 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .hero-content {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 3rem;
-            position: relative;
-            z-index: 2;
-            text-align: left;
-        }
-
-        .hero-text {
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
+        /* Hero Section Refined - REMOVED OLD STYLES TO PREVENT CONFLICT */
+        
         .date-badge {
             display: inline-flex;
             align-items: center;
@@ -254,28 +228,32 @@
             border-radius: 50px;
             font-size: 0.8rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             border: 1px solid #c5d89d33;
             letter-spacing: 0.02em;
+            margin-left: 0;
+            margin-right: auto;
         }
 
         .hero-greeting {
-            font-size: 2.25rem;
-            font-weight: 800;
+            font-size: 2.5rem;
+            font-weight: 900;
             color: var(--theme-charcoal);
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            letter-spacing: -0.04em;
             line-height: 1.1;
+            text-align: left !important;
         }
 
         .text-theme { color: var(--theme-green-dark); }
 
         .hero-subtitle {
             color: var(--theme-slate);
-            font-size: 1.05rem;
-            max-width: 550px;
+            font-size: 1.1rem;
+            max-width: 500px;
             line-height: 1.6;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            text-align: left !important;
         }
 
         .highlight {
@@ -284,10 +262,11 @@
             background: linear-gradient(to bottom, transparent 60%, #c5d89d4d 60%);
         }
 
-        /* Premium Buttons */
         .quick-actions {
             display: flex;
             gap: 1.25rem;
+            justify-content: flex-start !important;
+            width: 100%;
         }
 
         .btn-action {
@@ -795,9 +774,9 @@
         
         @media (max-width: 768px) {
             .welcome-hero { padding: 2rem; }
-            .hero-content { flex-direction: column-reverse; text-align: center; }
-            .hero-subtitle { margin: 0 auto 2rem; }
-            .quick-actions { justify-content: center; }
+            .hero-content { flex-direction: column; text-align: left; align-items: flex-start; }
+            .hero-subtitle { margin: 0 0 2rem; }
+            .quick-actions { justify-content: flex-start; }
             .user-profile-card { width: 100%; max-width: 300px; }
             .stats-grid { grid-template-columns: 1fr; }
         }

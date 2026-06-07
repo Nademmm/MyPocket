@@ -73,15 +73,15 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="pt-8 flex flex-col sm:flex-row gap-4 border-t border-[#faf8ed]">
-                    <button type="submit" class="flex-1 py-5 bg-[#2d2d2d] text-white text-base font-black rounded-2xl transition-all duration-300 shadow-xl hover:bg-black hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group">
+                <div class="pt-8 flex flex-col gap-4 border-t border-[#c5d89d]/20">
+                    <button type="submit" class="w-full py-4 bg-[#9cab84] text-[#2d2d2d] text-base font-bold rounded-2xl transition-all duration-200 shadow-sm flex items-center justify-center gap-2 group">
                         <span>Save Diary</span>
-                        <svg class="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                         </svg>
                     </button>
-                    <a href="{{ route('diaries.index') }}" class="px-10 py-5 text-[#89986d] hover:text-[#2d2d2d] font-black text-xs transition-colors text-center uppercase tracking-widest border-2 border-transparent hover:border-[#c5d89d]/20 rounded-2xl flex items-center justify-center">
-                        Discard
+                    <a href="{{ route('diaries.index') }}" class="w-full py-4 bg-white border border-gray-200 text-gray-500 text-base font-bold rounded-2xl transition-all duration-200 hover:bg-gray-50 flex items-center justify-center">
+                        Cancel
                     </a>
                 </div>
             </form>
