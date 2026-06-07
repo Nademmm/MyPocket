@@ -72,7 +72,7 @@
                                         <p class="text-sm font-semibold text-[#2d2d2d] truncate max-w-[200px]">
                                             {{ $transaction->description ?: 'No description' }}
                                         </p>
-                                        <span class="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider {{ $transaction->type == 'income' ? 'bg-[#c5d89d]/30 text-[#6b7854]' : 'bg-[#d9a3a3]/20 text-[#c17b7b]' }}">
+                                        <span class="inline-block px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider {{ $transaction->type == 'income' ? 'bg-[#c5d89d]/30 text-[#6b7854]' : 'bg-[#d9a3a3]/20 text-[#c17b7b]' }}">
                                             {{ $transaction->type }}
                                         </span>
                                     </div>
@@ -90,7 +90,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                <div class="flex items-center justify-end gap-3 transition-opacity duration-200">
                                     <a href="{{ route('transactions.edit', $transaction->id) }}" class="p-2 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] rounded-lg transition border border-[#9cab84]/40 shadow-sm">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>

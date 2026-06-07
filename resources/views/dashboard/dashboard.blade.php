@@ -158,37 +158,6 @@
                         <p>Belum ada target</p>
                     </div>
                 @endif
-
-                <div class="divider-premium"></div>
-
-                <div class="reminders-section">
-                    <div class="card-header-premium p-0 mb-4">
-                        <div class="card-title-group">
-                            <div class="card-icon-main"><i class="fas fa-bell text-theme"></i></div>
-                            <h3 class="card-title-premium">Pengingat</h3>
-                        </div>
-                    </div>
-
-                    @if($reminders->count())
-                        <div class="reminder-list-premium">
-                            @foreach($reminders as $reminder)
-                            <div class="reminder-item-premium {{ $reminder->is_active && now()->diffInDays($reminder->remind_date, false) <= 1 ? 'urgent' : '' }}">
-                                <div class="reminder-icon-box">
-                                    <i class="fas fa-{{ $reminder->is_active && now()->diffInDays($reminder->remind_date, false) <= 1 ? 'exclamation-circle' : 'clock' }}"></i>
-                                </div>
-                                <div class="reminder-details-premium">
-                                    <h4 class="reminder-title-premium">{{ $reminder->title }}</h4>
-                                    <span class="reminder-date-premium">{{ $reminder->remind_date->format('d M Y') }}</span>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="empty-state-mini">
-                            <p>Tidak ada pengingat</p>
-                        </div>
-                    @endif
-                </div>
             </div>
         </div>
     </div>
@@ -244,22 +213,22 @@
         .date-badge {
             display: inline-flex;
             align-items: center;
-            padding: 0.6rem 1.25rem;
+            padding: 0.5rem 1rem;
             background: var(--theme-green-light);
             color: var(--theme-green-dark);
             border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             border: 1px solid #c5d89d33;
             letter-spacing: 0.02em;
         }
 
         .hero-greeting {
-            font-size: 2.75rem;
+            font-size: 2.25rem;
             font-weight: 800;
             color: var(--theme-charcoal);
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             letter-spacing: -0.03em;
             line-height: 1.1;
         }
@@ -268,10 +237,10 @@
 
         .hero-subtitle {
             color: var(--theme-slate);
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             max-width: 550px;
-            line-height: 1.7;
-            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
         .highlight {
@@ -394,14 +363,14 @@
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
         }
 
         .stat-card {
             background: white;
             border-radius: var(--radius-lg);
-            padding: 1.75rem;
+            padding: 1.5rem;
             box-shadow: var(--shadow-soft);
             border: 1px solid #f1f5f9;
             transition: all 0.3s ease;
@@ -471,9 +440,9 @@
         /* Content Grid & Glass Cards */
         .content-grid {
             display: grid;
-            grid-template-columns: 1.8fr 1.2fr;
-            gap: 2rem;
-            margin-bottom: 4rem;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
         .glass-card {
