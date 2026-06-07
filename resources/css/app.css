@@ -12,6 +12,20 @@
         --text-secondary: #89986d;
         --border-color: #c5d89d;
         --accent-color: #9cab84;
+        
+        /* Premium Theme Variables */
+        --theme-green: #c5d89d;
+        --theme-green-dark: #89986d;
+        --theme-green-light: #faf8ed;
+        --theme-charcoal: #2d2d2d;
+        --theme-slate: #64748b;
+        --theme-emerald: #10b981;
+        --theme-rose: #f43f5e;
+        --theme-sky: #0ea5e9;
+        --radius-xl: 24px;
+        --radius-lg: 18px;
+        --shadow-soft: 0 10px 30px rgba(0,0,0,0.03);
+        --shadow-btn: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     html.dark {
