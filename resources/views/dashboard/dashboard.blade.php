@@ -219,107 +219,97 @@
 
         /* Dashboard Premium Theme Styles */
         .welcome-hero {
-            background: linear-gradient(135deg, #ffffff 0%, #fdfdfa 100%);
-            border-radius: 24px;
-            padding: 3rem;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            border: 1px solid #f1f5f9;
-            position: relative;
-            overflow: hidden;
-            display: block;
+            background: linear-gradient(135deg, #ffffff 0%, #fdfdfa 100%) !important;
+            border-radius: 24px !important;
+            padding: 4rem !important;
+            margin-bottom: 2.5rem !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03) !important;
+            border: 1px solid #f1f5f9 !important;
+            position: relative !important;
+            overflow: hidden !important;
+            display: block !important;
             text-align: left !important;
-        }
-
-        .welcome-hero::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            left: -50px;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(197, 216, 157, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
         }
 
         .hero-content {
-            display: flex;
-            justify-content: flex-start !important;
-            align-items: center;
-            gap: 4rem;
-            position: relative;
-            z-index: 2;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 4rem !important;
+            position: relative !important;
+            z-index: 2 !important;
             text-align: left !important;
-            width: 100%;
+            width: 100% !important;
         }
 
         .hero-text {
             text-align: left !important;
-            display: flex;
-            flex-direction: column;
+            display: flex !important;
+            flex-direction: column !important;
             align-items: flex-start !important;
-            flex: 1;
-            max-width: 600px;
+            flex: 1 !important;
+            max-width: 650px !important;
         }
 
         .date-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            background: #faf8ed;
-            color: #89986d;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(197, 216, 157, 0.2);
-            letter-spacing: 0.02em;
+            display: inline-flex !important;
+            align-items: center !important;
+            padding: 0.6rem 1.25rem !important;
+            background: #faf8ed !important;
+            color: #89986d !important;
+            border-radius: 50px !important;
+            font-size: 0.85rem !important;
+            font-weight: 800 !important;
+            margin-bottom: 2rem !important;
+            border: 1px solid rgba(197, 216, 157, 0.3) !important;
+            letter-spacing: 0.02em !important;
             margin-left: 0 !important;
             margin-right: auto !important;
         }
 
         .hero-greeting {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #2d2d2d;
-            margin-bottom: 1rem;
-            letter-spacing: -0.04em;
-            line-height: 1.1;
+            font-size: 3.5rem !important;
+            font-weight: 900 !important;
+            color: #2d2d2d !important;
+            margin-bottom: 1.5rem !important;
+            letter-spacing: -0.05em !important;
+            line-height: 1.1 !important;
             text-align: left !important;
         }
 
         .hero-subtitle {
-            color: #64748b;
-            font-size: 1.1rem;
-            max-width: 500px; line-height: 1.6;
-            margin-bottom: 2.5rem;
+            color: #64748b !important;
+            font-size: 1.15rem !important;
+            max-width: 500px !important; 
+            line-height: 1.7 !important;
+            margin-bottom: 3rem !important;
             text-align: left !important;
         }
 
         .highlight {
-            color: #2d2d2d;
-            font-weight: 800;
-            background: linear-gradient(to bottom, transparent 60%, rgba(197, 216, 157, 0.3) 60%);
+            color: #2d2d2d !important;
+            font-weight: 800 !important;
+            background: linear-gradient(to bottom, transparent 60%, rgba(197, 216, 157, 0.3) 60%) !important;
         }
 
         .quick-actions {
-            display: flex;
-            gap: 1.25rem;
+            display: flex !important;
+            gap: 1.5rem !important;
             justify-content: flex-start !important;
-            width: 100%;
+            width: 100% !important;
         }
 
         .btn-action {
-            padding: 0.9rem 1.75rem;
-            border-radius: 16px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-decoration: none;
-            font-size: 1rem;
-            border: 1px solid transparent;
+            padding: 1.1rem 2.25rem !important;
+            border-radius: 20px !important;
+            font-weight: 800 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 1rem !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            text-decoration: none !important;
+            font-size: 1.05rem !important;
+            border: 1px solid transparent !important;
         }
 
         .btn-action:hover {

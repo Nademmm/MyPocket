@@ -80,8 +80,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                         </svg>
                     </button>
-                    <a href="{{ route('diaries.index') }}" class="w-full py-4 bg-white border border-gray-200 text-gray-500 text-base font-bold rounded-2xl transition-all duration-200 hover:bg-gray-50 flex items-center justify-center">
-                        Cancel
+                    <a href="{{ route('diaries.index') }}" class="w-full py-4 text-[#9cab84] hover:text-[#6b7854] font-bold text-xs transition text-center uppercase tracking-widest border-2 border-transparent hover:border-[#c5d89d]/20 rounded-2xl">
+                        Cancel and Return
                     </a>
                 </div>
             </form>
