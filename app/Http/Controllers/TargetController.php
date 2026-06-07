@@ -11,7 +11,9 @@ class TargetController extends Controller
 {
     public function index()
     {
-        $targets = Auth::user()->targets()->latest()->paginate(10);
+        $targets = Auth::user()->targets()->with(['logs' => function($query) {
+            $query->latest()->limit(5);
+        }])->latest()->paginate(10);
         return view('targets.index', compact('targets'));
     }
 

@@ -1,4 +1,15 @@
 <x-app-layout title="Savings Targets">
+    <div x-data="{ 
+        showLogModal: false, 
+        currentTarget: null,
+        logType: 'increase',
+        showAllLogs: false,
+        openLogModal(target) {
+            this.currentTarget = target;
+            this.showLogModal = true;
+            this.showAllLogs = false;
+        }
+    }">
     <!-- Header -->
     <div class="mb-8">
         <div class="flex items-center justify-between mb-2">
@@ -101,16 +112,24 @@
                                     Until {{ $target->deadline->format('M d, Y') }}
                                 </p>
                             </div>
-                            <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <a href="{{ route('targets.edit', $target->id) }}" class="p-2 bg-[#c5d89d]/20 text-[#6b7854] rounded-lg hover:bg-[#c5d89d]/40 transition">
+                            <div class="flex items-center justify-end gap-2">
+                                <button @click="openLogModal({{ json_encode($target) }})" 
+                                        class="flex items-center gap-1.5 px-3 py-2 bg-[#89986d]/10 text-[#6b7854] hover:bg-[#89986d]/20 rounded-xl transition-all font-bold text-xs border border-[#89986d]/20 shadow-sm group/log" 
+                                        title="Savings Log">
+                                    <svg class="w-4 h-4 transition-transform group-hover/log:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                    </svg>
+                                    <span>Log</span>
+                                </button>
+                                <a href="{{ route('targets.edit', $target->id) }}" class="p-2 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] rounded-xl transition border border-[#9cab84]/40 shadow-sm" title="Edit Target">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
                                 </a>
-                                <form action="{{ route('targets.destroy', $target->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
+                                <form action="{{ route('targets.destroy', $target->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this target?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="p-2 bg-[#d9a3a3]/10 text-[#c17b7b] rounded-lg hover:bg-[#d9a3a3]/20 transition">
+                                    <button type="submit" class="p-2 bg-gradient-to-br from-[#d9a3a3] to-[#c17b7b] hover:from-[#c17b7b] hover:to-[#a85a5a] text-white rounded-xl transition border border-[#c17b7b]/40 shadow-sm" title="Delete Target">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
@@ -176,4 +195,98 @@
             </a>
         </div>
     @endif
+
+    <!-- Savings Log Modal -->
+    <template x-if="showLogModal">
+        <div class="fixed inset-0 z-[100] flex items-center justify-center p-4" x-cloak>
+            <div class="fixed inset-0 bg-[#2d2d2d]/40 backdrop-blur-sm" @click="showLogModal = false"></div>
+
+            <div class="relative bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden transform transition-all border border-[#c5d89d]/30 flex flex-col max-h-[85vh]">
+                <!-- Header -->
+                <div class="px-6 py-4 border-b border-[#c5d89d]/20 flex items-center justify-between shrink-0 bg-[#faf8ed]/50">
+                    <h3 class="text-lg font-bold text-[#2d2d2d] truncate pr-4" x-text="currentTarget.title"></h3>
+                    <button @click="showLogModal = false" class="text-[#89986d] hover:text-[#c17b7b] transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+
+                <div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+                    <!-- Form -->
+                    <form :action="'/targets/' + currentTarget.id + '/logs'" method="POST" class="space-y-4">
+                        @csrf
+                        <div class="flex gap-2 p-1 bg-[#f8faf2] border border-[#c5d89d]/20 rounded-xl">
+                            <button type="button" @click="logType = 'increase'" :class="logType === 'increase' ? 'bg-[#c5d89d] text-[#2d2d2d] shadow-sm' : 'text-[#89986d] hover:bg-white'" class="flex-1 py-2 text-[10px] font-bold rounded-lg transition-all uppercase tracking-wider">Increase</button>
+                            <button type="button" @click="logType = 'decrease'" :class="logType === 'decrease' ? 'bg-[#c5d89d] text-[#2d2d2d] shadow-sm' : 'text-[#89986d] hover:bg-white'" class="flex-1 py-2 text-[10px] font-bold rounded-lg transition-all uppercase tracking-wider">Decrease</button>
+                        </div>
+                        <input type="hidden" name="type" :value="logType">
+                        
+                        <div class="space-y-4">
+                            <div class="relative flex items-center bg-white border-2 border-[#c5d89d]/20 focus-within:border-[#c5d89d] rounded-xl transition-all shadow-sm">
+                                <span class="pl-4 text-[#6b7854] font-bold text-sm">Rp</span>
+                                <input type="number" name="amount" required step="0.01" placeholder="Amount" class="w-full py-3 px-3 bg-transparent text-[#2d2d2d] font-bold outline-none border-none focus:ring-0">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="date" name="log_date" required value="{{ date('Y-m-d') }}" class="w-full px-3 py-2.5 bg-white border-2 border-[#c5d89d]/20 focus:border-[#c5d89d] text-[#2d2d2d] text-sm font-bold rounded-xl outline-none shadow-sm">
+                                <input type="text" name="description" placeholder="Note (opt)" class="w-full px-3 py-2.5 bg-white border-2 border-[#c5d89d]/20 focus:border-[#c5d89d] text-[#2d2d2d] text-sm font-medium rounded-xl outline-none shadow-sm">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="bg-[#9cab84] text-[#2d2d2d] w-full py-3 text-sm font-bold rounded-xl transition-all shadow-lg hover:opacity-90 flex items-center justify-center gap-2 group">
+                            <span x-text="logType === 'increase' ? 'Save Changes' : 'Confirm Withdrawal'"></span>
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                        </button>
+                    </form>
+
+                    <!-- Compact History -->
+                    <div class="pt-4 border-t border-[#c5d89d]/20">
+                        <div class="flex items-center justify-between mb-3">
+                            <p class="text-[10px] font-bold text-[#9cab84] uppercase tracking-widest">Recent Activity</p>
+                            <template x-if="currentTarget.logs && currentTarget.logs.length > 3">
+                                <button @click="showAllLogs = !showAllLogs" class="text-[10px] font-bold text-[#6b7854] hover:text-[#2d2d2d] transition-colors" x-text="showAllLogs ? 'Show Less' : 'View All (' + currentTarget.logs.length + ')'"></button>
+                            </template>
+                        </div>
+                        <div class="space-y-2">
+                            <template x-for="(log, index) in currentTarget.logs" :key="log.id">
+                                <div x-show="showAllLogs || index < 3" class="flex items-center justify-between p-3 bg-[#faf8ed]/50 border border-[#c5d89d]/10 rounded-xl group/item">
+                                    <div class="flex items-center gap-3">
+                                        <div :class="log.type === 'increase' ? 'text-[#6b7854]' : 'text-[#c17b7b]'" class="font-bold text-sm">
+                                            <span x-text="log.type === 'increase' ? '+' : '-'"></span>
+                                            <span x-text="'Rp' + Number(log.amount).toLocaleString('id-ID')"></span>
+                                        </div>
+                                        <p class="text-[10px] text-[#89986d] truncate max-w-[120px]" x-text="(log.description ? log.description + ' • ' : '') + new Date(log.log_date).toLocaleDateString('id-ID')"></p>
+                                    </div>
+                                    <form :action="'/targets/' + currentTarget.id + '/logs/' + log.id" method="POST" onsubmit="return confirm('Delete?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="text-[#d9a3a3] hover:text-[#c17b7b] transition opacity-0 group-hover/item:opacity-100"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+                                    </form>
+                                </div>
+                            </template>
+                            <template x-if="!currentTarget.logs || currentTarget.logs.length === 0">
+                                <p class="text-center py-2 text-[10px] text-[#89986d] italic">No activity</p>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    </div>
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c5d89d;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #9cab84;
+        }
+    </style>
 </x-app-layout>
