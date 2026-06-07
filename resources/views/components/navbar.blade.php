@@ -36,36 +36,41 @@
                 </button>
 
                 <!-- Notifications Dropdown -->
-                <div x-show="notifOpen" @click.away="notifOpen = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 mt-3 w-[350px] bg-white rounded-2xl shadow-2xl border border-[#c5d89d]/40 py-0 z-50 overflow-hidden">
-                    <div class="px-5 py-4 border-b border-[#c5d89d]/30 bg-[#faf8ed]/50 flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <span class="p-1.5 bg-[#c5d89d]/30 rounded-lg">
-                                <i class="fas fa-bell text-[#6b7854] text-xs"></i>
+                <div x-show="notifOpen" @click.away="notifOpen = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 mt-3 w-[420px] bg-white rounded-2xl shadow-2xl border border-[#c5d89d]/40 py-0 z-50 overflow-hidden">
+                    <div class="px-6 py-7 border-b border-[#c5d89d]/30 bg-[#faf8ed]/50 flex justify-between items-center" style="height: 50px !important;">
+                        <div class="flex items-center gap-3">
+                            <span class="p-2 bg-[#c5d89d]/30 rounded-xl" style="border-radius: 16px !important;">
+                                <i class="fas fa-bell text-[#6b7854] text-sm"></i>
                             </span>
-                            <h3 class="text-sm font-extrabold text-[#2d2d2d] uppercase tracking-wider">Pengingat</h3>
+                            <h3 class="text-base font-black text-[#2d2d2d] uppercase tracking-wider">Reminders</h3>
                         </div>
-                        <a href="{{ route('reminders.index') }}" class="text-[11px] font-bold text-[#89986d] hover:text-[#6b7854] transition-colors border-b border-transparent hover:border-[#6b7854]">Lihat Semua</a>
+                        <a href="{{ route('reminders.index') }}" class="text-xs font-bold text-[#89986d] hover:text-[#6b7854] transition-colors border-b-2 border-transparent hover:border-[#6b7854] pb-0.5">View All</a>
                     </div>
-                    <div class="max-h-[400px] overflow-y-auto custom-scrollbar">
+                    <div class="">
                         @forelse($reminders as $reminder)
-                            <div class="px-5 py-4 hover:bg-[#faf8ed] transition-all duration-200 border-b border-[#c5d89d]/10 last:border-0 group">
-                                <div class="flex items-start gap-4">
-                                    <div class="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center transition-transform group-hover:scale-110 {{ now()->diffInDays($reminder->remind_date, false) <= 1 ? 'bg-[#fff1f2] text-[#f43f5e] shadow-sm shadow-rose-100' : 'bg-[#f0f9ff] text-[#0ea5e9] shadow-sm shadow-blue-100' }}">
-                                        <i class="fas fa-{{ now()->diffInDays($reminder->remind_date, false) <= 1 ? 'exclamation-circle' : 'clock' }} text-sm"></i>
+                            <a href="{{ route('reminders.show', $reminder) }}" class="block px-6 py-7 hover:bg-[#faf8ed] transition-all duration-200 border-b border-[#c5d89d]/10 last:border-0 group" style="height: 49px !important;">
+                                <div class="flex items-center gap-5">
+                                    <div class="w-6 h-8 rounded-2xl flex-shrink-0 flex items-center justify-center transition-transform group-hover:scale-110 {{ now()->diffInDays($reminder->remind_date, false) <= 1 ? 'bg-[#fff1f2] text-[#f43f5e] shadow-sm shadow-rose-100' : 'bg-[#f0f9ff] text-[#0ea5e9] shadow-sm shadow-blue-100' }}">
+                                        <i class="fas fa-{{ now()->diffInDays($reminder->remind_date, false) <= 1 ? 'exclamation-circle' : 'clock' }} text-lg"></i>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-[13px] font-bold text-[#2d2d2d] leading-snug group-hover:text-[#6b7854] transition-colors truncate">{{ $reminder->title }}</p>
-                                        <div class="flex items-center gap-2 mt-1.5">
-                                            <i class="far fa-calendar-alt text-[10px] text-[#89986d]"></i>
-                                            <p class="text-[11px] font-medium text-[#89986d]">{{ $reminder->remind_date->format('d M Y, H:i') }}</p>
+                                        <p class="text-[15px] font-black text-[#2d2d2d] leading-tight group-hover:text-[#6b7854] transition-colors truncate">{{ $reminder->title }}</p>
+                                        <div class="flex items-center gap-2.5 mt-2">
+                                            <i class="far fa-calendar-alt text-xs text-[#89986d]"></i>
+                                            <p class="text-xs font-bold text-[#89986d]">{{ $reminder->remind_date->format('d M Y, H:i') }}</p>
                                         </div>
                                     </div>
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-chevron-right text-[#c5d89d] text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         @empty
-                            <div class="px-4 py-8 text-center">
-                                <i class="fas fa-bell-slash text-[#c5d89d] text-2xl mb-2"></i>
-                                <p class="text-xs text-[#89986d]">Tidak ada pengingat aktif</p>
+                            <div class="px-6 py-12 text-center">
+                                <div class="w-16 h-16 bg-[#faf8ed] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#c5d89d]/30">
+                                    <i class="fas fa-bell-slash text-[#c5d89d] text-2xl"></i>
+                                </div>
+                                <p class="text-sm font-bold text-[#89986d]">No active reminders</p>
                             </div>
                         @endforelse
                     </div>

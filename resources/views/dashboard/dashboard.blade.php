@@ -10,8 +10,8 @@
     <div class="welcome-hero" style="background: linear-gradient(135deg, #ffffff 0%, #fdfdfa 100%) !important; border-radius: 24px !important; padding: 3rem !important; margin-bottom: 2.5rem !important; border: 1px solid #f1f5f9 !important; position: relative !important; overflow: hidden !important; text-align: left !important; display: block !important;">
         <div class="hero-content" style="display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: flex-start !important; gap: 4rem !important; position: relative !important; z-index: 2 !important; text-align: left !important; width: 100% !important;">
             <div class="hero-text" style="flex: 1 1 500px !important; text-align: left !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important;">
-                <div class="date-badge" style="display: inline-flex !important; align-items: center !important; padding: 0.5rem 1.25rem !important; background: #faf8ed !important; color: #89986d !important; border-radius: 50px !important; font-size: 0.85rem !important; font-weight: 800 !important; margin-bottom: 2rem !important; border: 1px solid rgba(197, 216, 157, 0.3) !important;">
-                    <i class="far fa-calendar-alt mr-2"></i> {{ now()->format('l, d F Y') }}
+                <div class="date-badge" style="display: inline-flex !important; align-items: center !important; padding: 0.5rem 1.25rem !important; background: #faf8ed !important; color: #89986d !important; border-radius: 50px !important; font-size: 0.85rem !important; font-weight: 800 !important; margin-bottom: 2rem !important; border: 1px solid rgba(197, 216, 157, 0.3) !important; box-sizing: content-box !important;">
+                    <i class="far fa-calendar-alt" style="margin-left: 10px !important; margin-right: 10px !important; padding-left: 0 !important; padding-right: 0 !important;"></i> {{ now()->format('l, d F Y') }}
                 </div>
                 <h1 class="hero-greeting" style="font-size: 3.5rem !important; font-weight: 900 !important; color: #2d2d2d !important; margin-bottom: 1.5rem !important; letter-spacing: -0.05em !important; line-height: 1.1 !important; text-align: left !important;">
                     Welcome back, <br>
@@ -21,12 +21,12 @@
                     Ready to manage your <span style="color: #2d2d2d !important; font-weight: 800 !important; background: linear-gradient(to bottom, transparent 60%, rgba(197, 216, 157, 0.3) 60%) !important;">finances</span> today? 
                     Keep track of your goals and maintain a healthy balance.
                 </p>
-                <div class="quick-actions" style="display: flex !important; gap: 1.5rem !important; justify-content: flex-start !important; width: 100% !important;">
-                    <a href="{{ route('transactions.create') }}" class="btn-action" style="padding: 1rem 2rem !important; border-radius: 18px !important; font-weight: 800 !important; display: inline-flex !important; align-items: center !important; gap: 1rem !important; background: #2d2d2d !important; color: white !important; text-decoration: none !important; box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;">
+                <div class="quick-actions" style="display: flex !important; gap: 1.5rem !important; justify-content: flex-start !important; width: 100% !important; margin-left: 0 !important;">
+                    <a href="{{ route('transactions.create') }}" class="btn-action" style="padding: 1rem 2rem !important; border-radius: 18px !important; font-weight: 800 !important; display: inline-flex !important; align-items: center !important; gap: 1rem !important; background: #2d2d2d !important; color: white !important; text-decoration: none !important; box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;">
                         <div style="width: 24px; height: 24px; display: flex !important; align-items: center !important; justify-content: center !important; background: rgba(255,255,255,0.2) !important; border-radius: 6px !important;"><i class="fas fa-plus"></i></div>
                         Add Transaction
                     </a>
-                    <a href="{{ route('diaries.create') }}" class="btn-action" style="padding: 1rem 2rem !important; border-radius: 18px !important; font-weight: 800 !important; display: inline-flex !important; align-items: center !important; gap: 1rem !important; background: white !important; color: #2d2d2d !important; border: 2px solid #f1f5f9 !important; text-decoration: none !important;">
+                    <a href="{{ route('diaries.create') }}" class="btn-action" style="padding: 1rem 2rem !important; border-radius: 18px !important; font-weight: 800 !important; display: inline-flex !important; align-items: center !important; gap: 1rem !important; background: white !important; color: #2d2d2d !important; border: 2px solid #f1f5f9 !important; text-decoration: none !important; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;">
                         <div style="width: 24px; height: 24px; display: flex !important; align-items: center !important; justify-content: center !important; background: #faf8ed !important; border-radius: 6px !important; color: #89986d !important;"><i class="fas fa-pen-fancy"></i></div>
                         Write Diary
                     </a>
@@ -280,6 +280,16 @@
             text-decoration: none;
             font-size: 1rem;
             border: 1px solid transparent;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-5px) scale(1.03) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+            filter: brightness(1.1);
+        }
+
+        .btn-action:active {
+            transform: translateY(-2px) scale(0.98) !important;
         }
 
         .btn-icon {
