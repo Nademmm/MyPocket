@@ -145,6 +145,9 @@
                 {{ $slot }}
             </div>
         </main>
+
+        <!-- Footer -->
+        <x-footer />
         </div>
     </div>
 </body>
