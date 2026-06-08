@@ -12,9 +12,10 @@ class Badge extends Model
 
     protected $fillable = [
         'name',
-        'icon',
         'description',
-        'requirement',
+        'image_path',
+        'requirement_type',
+        'requirement_value',
     ];
 
     /**

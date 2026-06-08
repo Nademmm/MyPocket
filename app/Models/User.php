@@ -102,6 +102,47 @@ class User extends Authenticatable
         // This method seems to be used to refresh cached values if needed, 
         // but let's make it consistent with the new logic.
         $this->update(['total_saved' => $savings]);
+
+        $this->checkAndAwardBadges();
+    }
+
+    /**
+     * Check and award badges based on user activity.
+     */
+    public function checkAndAwardBadges(): void
+    {
+        $earnedBadgeIds = $this->badges()->pluck('badges.id')->toArray();
+        $allBadges = Badge::all();
+
+        foreach ($allBadges as $badge) {
+            if (in_array($badge->id, $earnedBadgeIds)) {
+                continue;
+            }
+
+            $shouldAward = false;
+
+            switch ($badge->requirement_type) {
+                case 'transaction_count':
+                    if ($this->transactions()->count() >= $badge->requirement_value) {
+                        $shouldAward = true;
+                    }
+                    break;
+                case 'target_count':
+                    if ($this->targets()->where('status', 'completed')->count() >= $badge->requirement_value) {
+                        $shouldAward = true;
+                    }
+                    break;
+                case 'total_savings':
+                    if ($this->totalSavings() >= $badge->requirement_value) {
+                        $shouldAward = true;
+                    }
+                    break;
+            }
+
+            if ($shouldAward) {
+                $this->badges()->attach($badge->id, ['earned_at' => now()]);
+            }
+        }
     }
 
     /**

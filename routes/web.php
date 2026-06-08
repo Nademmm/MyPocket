@@ -14,6 +14,16 @@ use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\SavingDiaryController;
 use App\Http\Controllers\TargetLogController;
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\BadgeController as AdminBadgeController;
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users', AdminUserController::class)->only(['index', 'destroy']);
+    Route::resource('badges', AdminBadgeController::class);
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('transactions', TransactionController::class);

@@ -96,6 +96,17 @@
                         </a>
                     </li>
 
+                    @if(Auth::user() && Auth::user()->isAdmin())
+                    <li class="pt-4 mt-4 border-t border-[#c5d89d]/40">
+                        <span class="px-4 text-[10px] font-bold text-[#89986d] uppercase tracking-widest">Admin Control</span>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#2d2d2d] hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 group">
+                            <i class="fas fa-shield-alt w-5 text-[#89986d] group-hover:text-blue-600 transition-transform group-hover:scale-110"></i>
+                            <span class="font-medium">Admin Panel</span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
             </nav>
 

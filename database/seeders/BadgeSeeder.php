@@ -14,45 +14,45 @@ class BadgeSeeder extends Seeder
     {
         $badges = [
             [
-                'name' => 'First Step',
-                'icon' => '🚀',
-                'description' => 'Create your first transaction',
-                'requirement' => 'transactions_1',
+                'name' => 'First Transaction',
+                'description' => 'Create your first transaction in MyPocket',
+                'requirement_type' => 'transaction_count',
+                'requirement_value' => 1,
             ],
             [
                 'name' => 'Consistent Tracker',
-                'icon' => '📈',
-                'description' => 'Track 50 transactions',
-                'requirement' => 'transactions_50',
+                'description' => 'Track 50 transactions to build a financial habit',
+                'requirement_type' => 'transaction_count',
+                'requirement_value' => 50,
             ],
             [
-                'name' => 'Money Saver',
-                'icon' => '💰',
-                'description' => 'Save Rp 1.000.000',
-                'requirement' => 'total_saved_1000000',
-            ],
-            [
-                'name' => 'Big Saver',
-                'icon' => '💎',
-                'description' => 'Save Rp 10.000.000',
-                'requirement' => 'total_saved_10000000',
+                'name' => 'First Goal Reached',
+                'description' => 'Complete your first saving target',
+                'requirement_type' => 'target_count',
+                'requirement_value' => 1,
             ],
             [
                 'name' => 'Target Master',
-                'icon' => '🎯',
-                'description' => 'Complete 5 targets',
-                'requirement' => 'targets_completed_5',
+                'description' => 'Successfully complete 5 saving targets',
+                'requirement_type' => 'target_count',
+                'requirement_value' => 5,
             ],
             [
-                'name' => 'Daily Journaler',
-                'icon' => '📔',
-                'description' => 'Write 10 diary entries',
-                'requirement' => 'diaries_10',
+                'name' => 'Wealth Builder',
+                'description' => 'Save a total of Rp 1.000.000 across all targets',
+                'requirement_type' => 'total_savings',
+                'requirement_value' => 1000000,
+            ],
+            [
+                'name' => 'Sultan MyPocket',
+                'description' => 'Reach a total savings of Rp 10.000.000',
+                'requirement_type' => 'total_savings',
+                'requirement_value' => 10000000,
             ],
         ];
 
         foreach ($badges as $badge) {
-            Badge::firstOrCreate(
+            Badge::updateOrCreate(
                 ['name' => $badge['name']],
                 $badge
             );
