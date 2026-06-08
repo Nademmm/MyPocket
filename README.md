@@ -15,7 +15,7 @@ MyPocket is a comprehensive web application designed to help users take control 
 
 ### 💳 Core Financial Management
 - **Smart Dashboard** - Real-time visualization of your financial health using Chart.js.
-- **Transaction Tracking** - Detailed logging of income and expenses with customizable categories.
+- **Transaction Tracking** - Detailed logging of income and expenses with simple note-based tracking.
 - **Savings Targets** - Set specific financial goals (e.g., "New Laptop", "Emergency Fund") and track your progress percentage.
 - **Saving Diary** - A personal space to record reflections, financial plans, and daily notes.
 - **Bill Reminders** - Never miss a payment with scheduled notifications and repeat options.
@@ -32,7 +32,7 @@ MyPocket is a comprehensive web application designed to help users take control 
 
 ### 👨‍💼 Admin Features
 - Comprehensive system overview.
-- Manage users, categories, and achievement badges.
+- Manage users and achievement badges.
 - Monitor system-wide financial statistics.
 
 ---

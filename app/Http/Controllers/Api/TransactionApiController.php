@@ -12,7 +12,7 @@ class TransactionApiController extends BaseApiController
 {
     public function index(): JsonResponse
     {
-        $transactions = Auth::user()->transactions()->with('category')->latest()->get();
+        $transactions = Auth::user()->transactions()->latest()->get();
         return $this->sendResponse($transactions, 'Transactions retrieved successfully.');
     }
 
@@ -21,7 +21,6 @@ class TransactionApiController extends BaseApiController
         $validated = $request->validate([
             'amount' => 'required|numeric',
             'type' => 'required|in:income,expense',
-            'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'transaction_date' => 'required|date',
         ]);
@@ -33,12 +32,12 @@ class TransactionApiController extends BaseApiController
             return $transaction;
         });
 
-        return $this->sendResponse($transaction->load('category'), 'Transaction created successfully.');
+        return $this->sendResponse($transaction, 'Transaction created successfully.');
     }
 
     public function show(string $id): JsonResponse
     {
-        $transaction = Auth::user()->transactions()->with('category')->find($id);
+        $transaction = Auth::user()->transactions()->find($id);
 
         if (is_null($transaction)) {
             return $this->sendError('Transaction not found.');
@@ -58,7 +57,6 @@ class TransactionApiController extends BaseApiController
         $validated = $request->validate([
             'amount' => 'required|numeric',
             'type' => 'required|in:income,expense',
-            'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'transaction_date' => 'required|date',
         ]);
@@ -68,7 +66,7 @@ class TransactionApiController extends BaseApiController
             Auth::user()->updateBalance();
         });
 
-        return $this->sendResponse($transaction->load('category'), 'Transaction updated successfully.');
+        return $this->sendResponse($transaction, 'Transaction updated successfully.');
     }
 
     public function destroy(string $id): JsonResponse

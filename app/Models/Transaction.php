@@ -34,12 +34,4 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    /**
-     * Get the category for this transaction.
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
 }

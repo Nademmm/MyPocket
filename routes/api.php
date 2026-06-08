@@ -7,7 +7,6 @@ use App\Http\Controllers\Api\TransactionApiController;
 use App\Http\Controllers\Api\TargetApiController;
 use App\Http\Controllers\Api\ReminderApiController;
 use App\Http\Controllers\Api\SavingDiaryApiController;
-use App\Http\Controllers\Api\CategoryApiController;
 use App\Http\Controllers\Api\BadgeApiController;
 
 /*
@@ -18,8 +17,6 @@ use App\Http\Controllers\Api\BadgeApiController;
 
 // Public routes
 Route::post('/login', [AuthApiController::class, 'login']);
-Route::get('/categories', [CategoryApiController::class, 'index']);
-Route::get('/categories/{id}', [CategoryApiController::class, 'show']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {

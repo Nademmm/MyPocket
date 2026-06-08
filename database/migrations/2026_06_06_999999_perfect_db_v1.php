@@ -25,16 +25,6 @@ return new class extends Migration
             }
         });
 
-        // 2. Categories table
-        // Already exists, just ensure it's correct
-        if (Schema::hasTable('categories')) {
-            Schema::table('categories', function (Blueprint $table) {
-                if (!Schema::hasColumn('categories', 'icon')) {
-                    $table->string('icon')->nullable()->after('name');
-                }
-            });
-        }
-
         // 3. Transactions table (Improved)
         if (Schema::hasTable('transactions')) {
             Schema::table('transactions', function (Blueprint $table) {

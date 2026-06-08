@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
 
         // Run additional seeders
         $this->call([
-            CategorySeeder::class,
             BadgeSeeder::class,
             TransactionSeeder::class,
             TargetSeeder::class,

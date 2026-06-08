@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -17,8 +16,7 @@ class TransactionController extends Controller
 
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
-        return view('transactions.create', compact('categories'));
+        return view('transactions.create');
     }
 
     public function store(Request $request)
@@ -62,8 +60,7 @@ class TransactionController extends Controller
     public function edit(string $id)
     {
         $transaction = Auth::user()->transactions()->findOrFail($id);
-        $categories = Category::orderBy('name')->get();
-        return view('transactions.edit', compact('transaction', 'categories'));
+        return view('transactions.edit', compact('transaction'));
     }
 
     public function update(Request $request, string $id)
