@@ -90,7 +90,10 @@ class User extends Authenticatable
      */
     public function badges()
     {
-        return $this->belongsToMany(Badge::class, 'user_badges')->withTimestamps()->withPivot('earned_at');
+        return $this->belongsToMany(Badge::class, 'user_badges')
+            ->withTimestamps()
+            ->withPivot('earned_at')
+            ->withCasts(['earned_at' => 'datetime']);
     }
 
     public function updateBalance(): void

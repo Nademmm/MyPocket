@@ -36,7 +36,13 @@
                     <p class="text-gray-500 text-xs line-clamp-2 mb-3">{{ $badge->description }}</p>
                     <div class="flex items-center gap-2">
                         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold rounded uppercase tracking-wider">
-                            Req: {{ $badge->requirement_count }} Target
+                            @if($badge->requirement_type == 'transaction_count')
+                                {{ (int)$badge->requirement_value }} Trx
+                            @elseif($badge->requirement_type == 'target_count')
+                                {{ (int)$badge->requirement_value }} Target
+                            @else
+                                Rp {{ number_format($badge->requirement_value, 0, ',', '.') }}
+                            @endif
                         </span>
                     </div>
                 </div>

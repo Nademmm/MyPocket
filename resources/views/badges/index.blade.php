@@ -24,8 +24,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach(Auth::user()->badges as $badge)
                     <div class="bg-gradient-to-br from-white to-[#faf8ed] border border-[#c5d89d]/30 rounded-2xl p-6 text-center hover:border-[#9cab84]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#c5d89d]/10 hover:-translate-y-1">
-                        <div class="w-20 h-20 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-[#c5d89d]/30 shadow-lg">
-                            <span class="text-4xl">{{ $badge->icon }}</span>
+                        <div class="w-20 h-20 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-[#c5d89d]/30 shadow-lg overflow-hidden">
+                            @if($badge->image_path)
+                                <img src="{{ asset('storage/' . $badge->image_path) }}" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-4xl">🏆</span>
+                            @endif
                         </div>
                         <h3 class="text-xl font-bold text-[#2d2d2d] mb-2">{{ $badge->name }}</h3>
                         <p class="text-[#89986d] text-sm mb-4">{{ $badge->description }}</p>
@@ -33,7 +37,7 @@
                             <svg class="w-4 h-4 text-[#6b7854]" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="text-xs text-[#6b7854] font-medium">Earned {{ $badge->pivot->earned_at->format('M d, Y') }}</span>
+                            <span class="text-xs text-[#6b7854] font-medium">Earned {{ $badge->pivot->earned_at ? date('M d, Y', strtotime($badge->pivot->earned_at)) : 'N/A' }}</span>
                         </div>
                     </div>
                 @endforeach
@@ -64,8 +68,12 @@
             @foreach(\App\Models\Badge::all() as $badge)
                 @if(!Auth::user()->badges->contains($badge))
                     <div class="bg-gradient-to-br from-[#faf8ed] to-[#f6f0d7] border border-[#c5d89d]/20 rounded-2xl p-6 text-center opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                        <div class="w-20 h-20 bg-gradient-to-br from-[#c5d89d]/50 to-[#9cab84]/50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-[#c5d89d]/20">
-                            <span class="text-4xl opacity-60">{{ $badge->icon }}</span>
+                        <div class="w-20 h-20 bg-gradient-to-br from-[#c5d89d]/50 to-[#9cab84]/50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-[#c5d89d]/20 overflow-hidden">
+                            @if($badge->image_path)
+                                <img src="{{ asset('storage/' . $badge->image_path) }}" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-4xl opacity-60">🏆</span>
+                            @endif
                         </div>
                         <h3 class="text-xl font-bold text-[#6b7854] mb-2">{{ $badge->name }}</h3>
                         <p class="text-[#89986d] text-sm mb-4">{{ $badge->description }}</p>
@@ -73,7 +81,15 @@
                             <svg class="w-4 h-4 text-[#9cab84]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                             </svg>
-                            <span class="text-xs text-[#9cab84] font-medium">{{ $badge->requirement }}</span>
+                            <span class="text-xs text-[#9cab84] font-medium">
+                                @if($badge->requirement_type == 'transaction_count')
+                                    {{ (int)$badge->requirement_value }} Transactions
+                                @elseif($badge->requirement_type == 'target_count')
+                                    {{ (int)$badge->requirement_value }} Targets
+                                @else
+                                    Rp {{ number_format($badge->requirement_value, 0, ',', '.') }}
+                                @endif
+                            </span>
                         </div>
                     </div>
                 @endif

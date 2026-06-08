@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="item-details">
                                     <h4 class="item-title">{{ $t->description ?: ucfirst($t->type) }}</h4>
-                                    <span class="item-date">{{ $t->transaction_date->format('d M Y') }}</span>
+                                    <span class="item-date">{{ $t->transaction_date ? (is_string($t->transaction_date) ? \Illuminate\Support\Carbon::parse($t->transaction_date)->format('d M Y') : $t->transaction_date->format('d M Y')) : 'N/A' }}</span>
                                 </div>
                             </div>
                             <div class="item-right">
@@ -151,7 +151,8 @@
                 @else
                     <div class="empty-state">
                         <div class="empty-icon"><i class="fas fa-receipt"></i></div>
-                        <p>No transactions yet</p>
+                        <h4 class="text-lg font-bold text-[#2d2d2d] mb-1">No Transactions Yet</h4>
+                        <p class="text-sm text-[#89986d]">Your recent financial activity will appear here.</p>
                     </div>
                 @endif
             </div>
@@ -194,7 +195,8 @@
                 @else
                     <div class="empty-state">
                         <div class="empty-icon"><i class="fas fa-bullseye"></i></div>
-                        <p>No targets yet</p>
+                        <h4 class="text-lg font-bold text-[#2d2d2d] mb-1">No Targets Yet</h4>
+                        <p class="text-sm text-[#89986d]">Start setting your savings goals today.</p>
                     </div>
                 @endif
             </div>
@@ -703,14 +705,25 @@
         /* Empty States */
         .empty-state {
             text-align: center;
-            padding: 3rem 2rem;
-            color: #94a3b8;
+            padding: 5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .empty-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
+            width: 64px;
+            height: 64px;
+            background: #faf8ed;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: #89986d;
+            border: 1px solid rgba(197, 216, 157, 0.3);
         }
 
         /* Responsive */

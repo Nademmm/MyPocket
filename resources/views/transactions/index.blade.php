@@ -75,7 +75,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-[#89986d]">
-                                {{ $transaction->transaction_date->format('M d, Y') }}
+                                {{ $transaction->transaction_date ? (is_string($transaction->transaction_date) ? \Illuminate\Support\Carbon::parse($transaction->transaction_date)->format('M d, Y') : $transaction->transaction_date->format('M d, Y')) : 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 <span class="text-sm font-bold {{ $transaction->type == 'income' ? 'text-[#6b7854]' : 'text-[#c17b7b]' }}">
@@ -114,7 +114,7 @@
 
     @else
         <!-- Empty State -->
-        <div class="bg-gradient-to-br from-white to-[#faf8ed] border-2 border-dashed border-[#c5d89d]/50 rounded-2xl p-16 text-center shadow-lg shadow-[#c5d89d]/5">
+        <div class="bg-gradient-to-br from-white to-[#faf8ed] border-2 border-dashed border-[#c5d89d]/50 rounded-2xl py-24 px-12 text-center shadow-lg shadow-[#c5d89d]/5">
             <div class="w-20 h-20 bg-gradient-to-br from-[#c5d89d]/30 to-[#9cab84]/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-[#c5d89d]/30">
                 <svg class="w-10 h-10 text-[#89986d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>

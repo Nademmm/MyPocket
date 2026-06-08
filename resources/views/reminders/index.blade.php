@@ -112,7 +112,7 @@
         </div>
     @else
         <!-- Empty State -->
-        <div class="bg-gradient-to-br from-white to-[#faf8ed] border-2 border-dashed border-[#c5d89d]/40 rounded-3xl p-16 text-center shadow-sm">
+        <div class="bg-gradient-to-br from-white to-[#faf8ed] border-2 border-dashed border-[#c5d89d]/40 rounded-3xl py-24 px-12 text-center shadow-sm">
             <div class="w-20 h-20 bg-[#c5d89d]/20 rounded-full flex items-center justify-center mx-auto mb-6 text-[#6b7854]">
                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>

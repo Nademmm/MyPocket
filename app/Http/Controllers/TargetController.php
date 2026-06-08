@@ -77,6 +77,7 @@ class TargetController extends Controller
             $validated = $this->validateTarget($request);
 
             $target->update($validated);
+            Auth::user()->updateBalance();
 
             return redirect()->route('targets.index')->with('success', 'Target updated successfully.');
         } catch (Throwable $e) {
