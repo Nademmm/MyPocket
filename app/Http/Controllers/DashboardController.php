@@ -11,12 +11,13 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $balance = $user->getBalance();
+        $rawBalance = $user->getRawBalance();
         $income = $user->totalIncome();
         $expense = $user->totalExpenses();
         $totalSavings = $user->totalSavings();
         $targets = $user->targets()->get();
         $reminders = $user->reminders()->orderBy('remind_date')->limit(5)->get();
         $recentTransactions = $user->transactions()->orderByDesc('transaction_date')->limit(5)->get();
-        return view('dashboard.dashboard', compact('balance', 'income', 'expense', 'totalSavings', 'targets', 'reminders', 'recentTransactions'));
+        return view('dashboard.dashboard', compact('balance', 'rawBalance', 'income', 'expense', 'totalSavings', 'targets', 'reminders', 'recentTransactions'));
     }
 }

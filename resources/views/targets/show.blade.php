@@ -65,7 +65,23 @@
                 </div>
                 <div class="bg-[#faf8ed] rounded-xl p-4 border border-[#c5d89d]/40">
                     <p class="text-xs text-[#9cab84] uppercase tracking-wider font-medium mb-1">Deadline</p>
-                    <p class="text-lg font-semibold text-[#2d2d2d]">{{ $target->deadline->format('M d, Y') }}</p>
+                    <div class="flex items-center justify-between">
+                        <p class="text-lg font-semibold text-[#2d2d2d]">{{ $target->deadline->format('M d, Y') }}</p>
+                        @php
+                            $today = now()->startOfDay();
+                            $deadline = $target->deadline->startOfDay();
+                            $daysLeft = $today->diffInDays($deadline, false);
+                        @endphp
+                        <span class="text-xs font-bold px-2 py-1 rounded-lg {{ $daysLeft < 0 ? 'bg-red-100 text-red-600' : ($daysLeft == 0 ? 'bg-orange-100 text-orange-600' : 'bg-[#c5d89d]/30 text-[#6b7854]') }}">
+                            @if($daysLeft > 0)
+                                {{ $daysLeft }} Days Left
+                            @elseif($daysLeft == 0)
+                                Today
+                            @else
+                                Overdue
+                            @endif
+                        </span>
+                    </div>
                 </div>
                 <div class="bg-[#faf8ed] rounded-xl p-4 border border-[#c5d89d]/40">
                     <p class="text-xs text-[#9cab84] uppercase tracking-wider font-medium mb-1">Status</p>

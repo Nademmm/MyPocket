@@ -84,9 +84,9 @@
                 <div class="stat-info">
                     <span class="stat-label">Active Balance</span>
                     <h2 class="stat-value">Rp {{ number_format($balance, 0, ',', '.') }}</h2>
-                    <div class="stat-trend {{ $balance >= 0 ? 'trend-up' : 'trend-down' }}">
-                        <i class="fas fa-{{ $balance >= 0 ? 'shield-check' : 'triangle-exclamation' }} mr-1"></i> 
-                        <span>{{ $balance >= 0 ? 'Wallet Safe' : 'Deficit' }}</span>
+                    <div class="stat-trend {{ $rawBalance >= 0 ? 'trend-up' : 'trend-down' }}">
+                        <i class="fas fa-{{ $rawBalance >= 0 ? 'shield-check' : 'triangle-exclamation' }} mr-1"></i> 
+                        <span>{{ $rawBalance >= 0 ? 'Wallet Safe' : 'Deficit' }}</span>
                     </div>
                 </div>
                 <div class="stat-icon-box bg-sky-100 text-sky-600">

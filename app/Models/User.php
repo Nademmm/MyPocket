@@ -185,10 +185,19 @@ class User extends Authenticatable
     }
 
     /**
-     * Get balance = (income - expenses) - savings.
+     * Get the raw balance = (income - expenses) - savings.
+     * Can be negative.
+     */
+    public function getRawBalance(): float
+    {
+        return $this->totalIncome() - $this->totalExpenses() - $this->totalSavings();
+    }
+
+    /**
+     * Get balance for display (minimum 0).
      */
     public function getBalance(): float
     {
-        return $this->totalIncome() - $this->totalExpenses() - $this->totalSavings();
+        return max(0, $this->getRawBalance());
     }
 }

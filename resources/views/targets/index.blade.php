@@ -159,7 +159,20 @@
                             </div>
                             <div class="text-center">
                                 <p class="text-[10px] uppercase tracking-wider text-[#9cab84] mb-1 font-bold">Days Left</p>
-                                <p class="text-sm font-bold text-[#2d2d2d]">{{ max(0, $target->deadline->diffInDays(now())) }}</p>
+                                @php
+                                    $today = now()->startOfDay();
+                                    $deadline = $target->deadline->startOfDay();
+                                    $daysLeft = $today->diffInDays($deadline, false);
+                                @endphp
+                                <p class="text-sm font-bold {{ $daysLeft < 0 ? 'text-red-500' : 'text-[#2d2d2d]' }}">
+                                    @if($daysLeft > 0)
+                                        {{ $daysLeft }} Days
+                                    @elseif($daysLeft == 0)
+                                        Today
+                                    @else
+                                        Overdue
+                                    @endif
+                                </p>
                             </div>
                             <div class="text-center">
                                 <p class="text-[10px] uppercase tracking-wider text-[#9cab84] mb-1 font-bold">Status</p>
@@ -223,7 +236,9 @@
                         <div class="space-y-4">
                             <div class="relative flex items-center bg-white border-2 border-[#c5d89d]/20 focus-within:border-[#c5d89d] rounded-xl transition-all shadow-sm">
                                 <span class="pl-4 text-[#6b7854] font-bold text-sm">Rp</span>
-                                <input type="text" name="amount" required inputmode="numeric" placeholder="Amount" maxlength="15" class="rupiah-input w-full py-3 px-3 bg-transparent text-[#2d2d2d] font-bold outline-none border-none focus:ring-0">
+                                <input type="text" name="amount" required inputmode="numeric" placeholder="Amount" maxlength="15" 
+                                       style="border: none !important; outline: none !important; box-shadow: none !important;"
+                                       class="rupiah-input w-full py-3 px-3 bg-transparent text-[#2d2d2d] font-bold focus:ring-0 focus:border-0 focus:outline-none">
                             </div>
 
                             <div class="grid grid-cols-2 gap-3">
