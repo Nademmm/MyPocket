@@ -223,7 +223,7 @@
                         <div class="space-y-4">
                             <div class="relative flex items-center bg-white border-2 border-[#c5d89d]/20 focus-within:border-[#c5d89d] rounded-xl transition-all shadow-sm">
                                 <span class="pl-4 text-[#6b7854] font-bold text-sm">Rp</span>
-                                <input type="number" name="amount" required step="0.01" placeholder="Amount" class="w-full py-3 px-3 bg-transparent text-[#2d2d2d] font-bold outline-none border-none focus:ring-0">
+                                <input type="text" name="amount" required inputmode="numeric" placeholder="Amount" maxlength="15" class="rupiah-input w-full py-3 px-3 bg-transparent text-[#2d2d2d] font-bold outline-none border-none focus:ring-0">
                             </div>
 
                             <div class="grid grid-cols-2 gap-3">
@@ -289,4 +289,30 @@
             background: #9cab84;
         }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Event Delegation for Input formatting
+            document.addEventListener('input', function(e) {
+                if (e.target.classList.contains('rupiah-input')) {
+                    let value = e.target.value.replace(/[^0-9]/g, '');
+                    if (value !== "") {
+                        e.target.value = new Intl.NumberFormat('id-ID').format(value);
+                    } else {
+                        e.target.value = "";
+                    }
+                }
+            });
+
+            // Clean dots before submit
+            document.addEventListener('submit', function(e) {
+                const inputs = e.target.querySelectorAll('.rupiah-input');
+                inputs.forEach(input => {
+                    if (input.value) {
+                        input.value = input.value.replace(/\./g, '').replace(',', '.');
+                    }
+                });
+            });
+        });
+    </script>
 </x-app-layout>

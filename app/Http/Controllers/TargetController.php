@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class TargetController extends Controller
@@ -31,6 +32,13 @@ class TargetController extends Controller
         }
 
         try {
+            if ($request->has('target_amount')) {
+                $request->merge(['target_amount' => str_replace('.', '', $request->target_amount)]);
+            }
+            if ($request->has('current_amount')) {
+                $request->merge(['current_amount' => str_replace('.', '', $request->current_amount)]);
+            }
+
             $validated = $this->validateTarget($request);
             $target = $user->targets()->create($validated);
 
@@ -40,6 +48,8 @@ class TargetController extends Controller
             ]);
 
             return redirect()->route('targets.index')->with('success', 'Target created successfully.');
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (Throwable $e) {
             \Log::error('Target creation failed', [
                 'user_id' => $user->id,
@@ -47,7 +57,7 @@ class TargetController extends Controller
             ]);
 
             return back()->withInput()->withErrors([
-                'error' => 'Failed to create target. Please try again.',
+                'error' => 'Failed to create target. Please check your input.',
             ]);
         }
     }
@@ -73,6 +83,13 @@ class TargetController extends Controller
         }
 
         try {
+            if ($request->has('target_amount')) {
+                $request->merge(['target_amount' => str_replace('.', '', $request->target_amount)]);
+            }
+            if ($request->has('current_amount')) {
+                $request->merge(['current_amount' => str_replace('.', '', $request->current_amount)]);
+            }
+
             $target = $user->targets()->findOrFail($id);
             $validated = $this->validateTarget($request);
 
@@ -80,6 +97,8 @@ class TargetController extends Controller
             Auth::user()->updateBalance();
 
             return redirect()->route('targets.index')->with('success', 'Target updated successfully.');
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (Throwable $e) {
             \Log::error('Target update failed', [
                 'target_id' => $id,
@@ -88,7 +107,7 @@ class TargetController extends Controller
             ]);
 
             return back()->withInput()->withErrors([
-                'error' => 'Failed to update target. Please try again.',
+                'error' => 'Failed to update target. Please check your input.',
             ]);
         }
     }
@@ -123,8 +142,8 @@ class TargetController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'target_amount' => 'required|numeric|min:0.01',
-            'current_amount' => 'nullable|numeric|min:0',
+            'target_amount' => 'required|numeric|min:0.01|max:999999999999.99',
+            'current_amount' => 'nullable|numeric|min:0|max:999999999999.99',
             'deadline' => 'required|date',
             'status' => 'required|in:active,completed,cancelled',
         ]);

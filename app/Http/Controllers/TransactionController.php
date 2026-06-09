@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class TransactionController extends Controller
@@ -28,6 +29,12 @@ class TransactionController extends Controller
         }
 
         try {
+            if ($request->has('amount')) {
+                $request->merge([
+                    'amount' => str_replace('.', '', $request->amount)
+                ]);
+            }
+
             $validated = $this->validateTransaction($request);
 
             $transaction = $user->transactions()->create($validated);
@@ -39,6 +46,8 @@ class TransactionController extends Controller
             ]);
 
             return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (Throwable $e) {
             \Log::error('Transaction creation failed', [
                 'user_id' => $user->id,
@@ -46,7 +55,7 @@ class TransactionController extends Controller
             ]);
 
             return back()->withInput()->withErrors([
-                'error' => 'Failed to create transaction. Please check your input and try again.',
+                'error' => 'Failed to create transaction. Please check your input.',
             ]);
         }
     }
@@ -72,6 +81,12 @@ class TransactionController extends Controller
         }
 
         try {
+            if ($request->has('amount')) {
+                $request->merge([
+                    'amount' => str_replace('.', '', $request->amount)
+                ]);
+            }
+
             $transaction = $user->transactions()->findOrFail($id);
             $validated = $this->validateTransaction($request);
 
@@ -79,6 +94,8 @@ class TransactionController extends Controller
             $this->recalculateBalanceSafely($user);
 
             return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (Throwable $e) {
             \Log::error('Transaction update failed', [
                 'transaction_id' => $id,
@@ -87,7 +104,7 @@ class TransactionController extends Controller
             ]);
 
             return back()->withInput()->withErrors([
-                'error' => 'Failed to update transaction. Please try again.',
+                'error' => 'Failed to update transaction. Please check your input.',
             ]);
         }
     }
@@ -122,7 +139,7 @@ class TransactionController extends Controller
     private function validateTransaction(Request $request): array
     {
         return $request->validate([
-            'amount' => 'required|numeric|min:0.01',
+            'amount' => 'required|numeric|min:0.01|max:999999999999.99',
             'type' => 'required|in:income,expense',
             'description' => 'nullable|string',
             'transaction_date' => 'required|date',

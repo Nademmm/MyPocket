@@ -139,25 +139,54 @@
                         <div class="pl-10 pr-4 py-5 bg-[#f8faf2]/30 text-2xl font-bold text-[#6b7854] group-focus-within:text-[#4a5535] group-focus-within:bg-[#f8faf2] transition-all select-none">
                             Rp
                         </div>
-                        <input type="number" id="amount" name="amount" value="{{ old('amount') }}"
-                               required min="0" step="0.01" placeholder="0"
+                        <input type="text" id="amount" name="amount" inputmode="numeric"
+                               value="{{ old('amount') ? number_format((float)str_replace('.', '', old('amount')), 0, ',', '.') : '' }}"
+                               required placeholder="0" maxlength="15"
                                style="border: none !important; outline: none !important; box-shadow: none !important;"
-                               class="amount-input w-full py-5 px-6 bg-transparent text-[#2d2d2d] text-3xl font-bold focus:ring-0 focus:border-0 focus:outline-none">
+                               class="rupiah-input w-full py-5 px-6 bg-transparent text-[#2d2d2d] text-3xl font-bold focus:ring-0 focus:border-0 focus:outline-none">
                     </div>
 
                     <style>
                         /* Hide spin buttons for Chrome, Safari, Edge, Opera */
-                        .amount-input::-webkit-outer-spin-button,
-                        .amount-input::-webkit-inner-spin-button {
+                        .rupiah-input::-webkit-outer-spin-button,
+                        .rupiah-input::-webkit-inner-spin-button {
                             -webkit-appearance: none;
                             margin: 0;
                         }
 
                         /* Hide spin buttons for Firefox */
-                        .amount-input {
+                        .rupiah-input {
                             -moz-appearance: textfield;
                         }
                     </style>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const rupiahInputs = document.querySelectorAll('.rupiah-input');
+                            const form = document.querySelector('form');
+
+                            rupiahInputs.forEach(input => {
+                                // Format on input
+                                input.addEventListener('input', function(e) {
+                                    let value = this.value.replace(/[^0-9]/g, '');
+                                    if (value !== "") {
+                                        this.value = new Intl.NumberFormat('id-ID').format(value);
+                                    } else {
+                                        this.value = "";
+                                    }
+                                });
+                            });
+
+                            // Clean dots before submit
+                            form.addEventListener('submit', function(e) {
+                                rupiahInputs.forEach(input => {
+                                    if (input.value) {
+                                        input.value = input.value.replace(/\./g, '').replace(',', '.');
+                                    }
+                                });
+                            });
+                        });
+                    </script>
                     @error('amount')
                         <p class="text-[10px] text-red-500 mt-1 ml-1 font-semibold">{{ $message }}</p>
                     @enderror

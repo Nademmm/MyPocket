@@ -18,8 +18,14 @@ class TargetLogController extends Controller
         $user = Auth::user();
         $target = $user->targets()->findOrFail($targetId);
 
+        if ($request->has('amount')) {
+            $request->merge([
+                'amount' => str_replace('.', '', $request->amount)
+            ]);
+        }
+
         $validated = $request->validate([
-            'amount' => 'required|numeric|min:0.01',
+            'amount' => 'required|numeric|min:0.01|max:999999999999.99',
             'type' => 'required|in:increase,decrease',
             'description' => 'nullable|string|max:255',
             'log_date' => 'required|date',
