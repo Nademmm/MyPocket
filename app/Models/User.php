@@ -27,6 +27,8 @@ class User extends Authenticatable
         'role',
         'total_saved',
         'level',
+        'streak_count',
+        'last_transaction_date',
     ];
 
     /**
@@ -50,6 +52,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'total_saved' => 'decimal:2',
+            'last_transaction_date' => 'date',
         ];
     }
 
@@ -98,15 +101,51 @@ class User extends Authenticatable
 
     public function updateBalance(): void
     {
-        $income = $this->totalIncome();
-        $expense = $this->totalExpenses();
-        $savings = $this->totalSavings();
-        
-        // This method seems to be used to refresh cached values if needed, 
-        // but let's make it consistent with the new logic.
-        $this->update(['total_saved' => $savings]);
+        $this->total_saved = $this->getBalance();
+        $this->save();
+    }
 
-        $this->checkAndAwardBadges();
+    /**
+     * Update user's streak based on daily activity.
+     */
+    public function updateStreak(): void
+    {
+        $today = now()->startOfDay();
+        $lastDate = $this->last_transaction_date ? \Illuminate\Support\Carbon::parse($this->last_transaction_date)->startOfDay() : null;
+
+        if (!$lastDate) {
+            // First transaction ever
+            $this->streak_count = 1;
+        } else {
+            $diffInDays = $today->diffInDays($lastDate);
+
+            if ($diffInDays === 0) {
+                // Already transacted today, do nothing to streak count
+                return;
+            } elseif ($diffInDays === 1) {
+                // Transacted yesterday, increment streak
+                $this->streak_count += 1;
+            } else {
+                // Missed one or more days, reset streak
+                $this->streak_count = 1;
+            }
+        }
+
+        $this->last_transaction_date = $today;
+        $this->save();
+    }
+
+    /**
+     * Check if streak is active today.
+     */
+    public function isStreakActive(): bool
+    {
+        if (!$this->last_transaction_date) return false;
+        
+        $today = now()->startOfDay();
+        $lastDate = \Illuminate\Support\Carbon::parse($this->last_transaction_date)->startOfDay();
+        
+        return $today->diffInDays($lastDate) <= 1;
     }
 
     /**

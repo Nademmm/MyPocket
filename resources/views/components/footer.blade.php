@@ -27,6 +27,7 @@
                     <li><a href="{{ route('dashboard') }}" class="text-sm text-[#64748b] hover:text-[#89986d] transition-colors">Dashboard</a></li>
                     <li><a href="{{ route('transactions.index') }}" class="text-sm text-[#64748b] hover:text-[#89986d] transition-colors">Transactions</a></li>
                     <li><a href="{{ route('targets.index') }}" class="text-sm text-[#64748b] hover:text-[#89986d] transition-colors">Savings Targets</a></li>
+                    <li><a href="{{ route('savings-arena.index') }}" class="text-sm text-[#64748b] hover:text-[#89986d] transition-colors">Savings Arena</a></li>
                     <li><a href="{{ route('reminders.index') }}" class="text-sm text-[#64748b] hover:text-[#89986d] transition-colors">Reminders</a></li>
                 </ul>
             </div>

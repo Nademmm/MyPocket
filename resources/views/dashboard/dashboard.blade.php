@@ -10,8 +10,15 @@
     <div class="welcome-hero" style="background: linear-gradient(135deg, #ffffff 0%, #fdfdfa 100%) !important; border-radius: 24px !important; padding: 3rem !important; margin-bottom: 2.5rem !important; border: 1px solid #f1f5f9 !important; position: relative !important; overflow: hidden !important; text-align: left !important; display: block !important;">
         <div class="hero-content" style="display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: flex-start !important; gap: 4rem !important; position: relative !important; z-index: 2 !important; text-align: left !important; width: 100% !important;">
             <div class="hero-text" style="flex: 1 1 500px !important; text-align: left !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important;">
-                <div class="date-badge" style="display: inline-flex !important; align-items: center !important; padding: 0.5rem 1.25rem !important; background: #faf8ed !important; color: #89986d !important; border-radius: 50px !important; font-size: 0.85rem !important; font-weight: 800 !important; margin-bottom: 2rem !important; border: 1px solid rgba(197, 216, 157, 0.3) !important; box-sizing: content-box !important;">
-                    <i class="far fa-calendar-alt" style="margin-left: 10px !important; margin-right: 10px !important; padding-left: 0 !important; padding-right: 0 !important;"></i> {{ now()->format('l, d F Y') }}
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="date-badge" style="display: inline-flex !important; align-items: center !important; padding: 0.5rem 1.25rem !important; background: #faf8ed !important; color: #89986d !important; border-radius: 50px !important; font-size: 0.85rem !important; font-weight: 800 !important; border: 1px solid rgba(197, 216, 157, 0.3) !important; box-sizing: content-box !important; margin-bottom: 0 !important;">
+                        <i class="far fa-calendar-alt" style="margin-left: 10px !important; margin-right: 10px !important; padding-left: 0 !important; padding-right: 0 !important;"></i> {{ now()->format('l, d F Y') }}
+                    </div>
+                    
+                    <div class="streak-badge" style="display: inline-flex !important; align-items: center !important; gap: 0.75rem !important; padding: 0.5rem 1.25rem !important; background: {{ Auth::user()->isStreakActive() ? '#fff7ed' : '#f8fafc' }} !important; color: {{ Auth::user()->isStreakActive() ? '#ea580c' : '#64748b' }} !important; border-radius: 50px !important; font-size: 0.85rem !important; font-weight: 800 !important; border: 1px solid {{ Auth::user()->isStreakActive() ? 'rgba(234, 88, 12, 0.2)' : '#e2e8f0' }} !important; box-shadow: {{ Auth::user()->isStreakActive() ? '0 4px 12px rgba(234, 88, 12, 0.1)' : 'none' }} !important;">
+                        <i class="fas fa-fire {{ Auth::user()->isStreakActive() ? 'text-orange-500' : 'text-gray-400' }}"></i>
+                        <span>{{ Auth::user()->streak_count }} Day Streak</span>
+                    </div>
                 </div>
                 <h1 class="hero-greeting" style="font-size: 3.5rem !important; font-weight: 900 !important; color: #2d2d2d !important; margin-bottom: 1.5rem !important; letter-spacing: -0.05em !important; line-height: 1.1 !important; text-align: left !important;">
                     Welcome back, <br>

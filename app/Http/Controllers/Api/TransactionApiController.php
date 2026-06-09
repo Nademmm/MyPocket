@@ -29,6 +29,7 @@ class TransactionApiController extends BaseApiController
             $user = Auth::user();
             $transaction = $user->transactions()->create($validated);
             $user->updateBalance();
+            $user->updateStreak();
             return $transaction;
         });
 

@@ -25,8 +25,48 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('targets.store') }}" class="space-y-8 relative">
+            <form method="POST" action="{{ route('targets.store') }}" enctype="multipart/form-data" class="space-y-8 relative">
                 @csrf
+
+                <!-- Target Image -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-[#9cab84] ml-1">
+                        Target Image
+                    </label>
+                    <div x-data="{ photoName: null, photoPreview: null }" class="relative">
+                        <input type="file" name="image" class="hidden" x-ref="photo" accept="image/jpeg,image/png,image/gif,image/webp"
+                               @change="
+                                    photoName = $refs.photo.files[0].name;
+                                    const reader = new FileReader();
+                                    reader.onload = (e) => {
+                                        photoPreview = e.target.result;
+                                    };
+                                    reader.readAsDataURL($refs.photo.files[0]);
+                               ">
+                        
+                        <div class="flex items-center gap-4">
+                            <!-- Preview -->
+                            <div class="w-40 aspect-video rounded-2xl border-2 border-dashed border-[#c5d89d]/40 flex items-center justify-center overflow-hidden bg-white shadow-sm">
+                                <template x-if="!photoPreview">
+                                    <i class="fas fa-image text-[#c5d89d] text-2xl"></i>
+                                </template>
+                                <template x-if="photoPreview">
+                                    <img :src="photoPreview" class="w-full h-full object-cover">
+                                </template>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <button type="button" @click="$refs.photo.click()" class="px-4 py-2 bg-white border-2 border-[#c5d89d]/20 text-[#6b7854] text-xs font-bold rounded-xl hover:border-[#c5d89d] transition-all shadow-sm">
+                                    Select Image
+                                </button>
+                                <p class="text-[10px] text-[#9cab84] font-medium">JPG, PNG, GIF or WEBP. Max 2MB.</p>
+                            </div>
+                        </div>
+                    </div>
+                    @error('image')
+                        <p class="text-[10px] text-red-500 mt-1 ml-1 font-semibold">{{ $message }}</p>
+                    @enderror
+                </div>
 
                 <!-- Title -->
                 <div class="space-y-3">
@@ -104,6 +144,24 @@
                         @error('status')
                             <p class="text-[10px] text-red-500 mt-1 ml-1 font-semibold">{{ $message }}</p>
                         @enderror
+                    </div>
+                </div>
+
+                <!-- Publish to Savings Arena -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-[#9cab84] ml-1">
+                        Showcase in Arena?
+                    </label>
+                    <div class="flex items-center gap-4 p-4 bg-white border-2 border-[#c5d89d]/20 rounded-2xl shadow-sm">
+                        <div class="flex-1">
+                            <p class="text-sm font-bold text-[#2d2d2d]">Feature in Savings Arena</p>
+                            <p class="text-[10px] text-[#89986d] font-medium leading-relaxed">
+                                Share your progress with the community! This will showcase your target in the Savings Arena for others to see and be inspired.
+                            </p>
+                        </div>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" name="is_published" value="1" class="w-5 h-5 ml-[50px] mr-[50px] rounded border-[#c5d89d] text-[#9cab84] focus:ring-[#9cab84] transition-all cursor-pointer" {{ old('is_published') ? 'checked' : '' }}>
+                        </label>
                     </div>
                 </div>
 

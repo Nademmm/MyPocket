@@ -39,6 +39,7 @@ class TransactionController extends Controller
 
             $transaction = $user->transactions()->create($validated);
             $this->recalculateBalanceSafely($user);
+            $user->updateStreak();
 
             \Log::info('Transaction created', [
                 'transaction_id' => $transaction->id,

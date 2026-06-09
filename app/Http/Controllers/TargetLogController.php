@@ -57,6 +57,7 @@ class TargetLogController extends Controller
             
             $target->save();
             $user->updateBalance();
+            $user->updateStreak();
 
             \DB::commit();
 

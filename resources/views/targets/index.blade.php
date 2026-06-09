@@ -98,88 +98,96 @@
 
     <!-- Targets List -->
     @if($targets->count() > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($targets as $target)
-                <div class="bg-gradient-to-br from-white to-[#faf8ed] border border-[#c5d89d]/30 rounded-2xl overflow-hidden hover:border-[#9cab84]/50 transition-all duration-300 hover:shadow-lg shadow-sm group">
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-[#2d2d2d] mb-1">{{ $target->title }}</h3>
-                                <p class="text-[#89986d] text-sm flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    Until {{ $target->deadline->format('M d, Y') }}
-                                </p>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-[#c5d89d]/20 hover:shadow-xl transition-all duration-500 group flex flex-col h-[520px]">
+                    <!-- Image Header -->
+                    <div class="relative aspect-video flex-shrink-0 overflow-hidden bg-[#faf8ed]">
+                        @if($target->image)
+                            <img src="{{ asset('storage/' . $target->image) }}" alt="{{ $target->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        @else
+                            <div class="w-full h-full bg-gradient-to-br from-[#c5d89d]/30 to-[#9cab84]/20 flex items-center justify-center transition-colors duration-500 group-hover:bg-[#c5d89d]/40">
+                                <svg class="w-12 h-12 text-[#89986d]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
                             </div>
-                            <div class="flex items-center justify-end gap-2">
-                                <button @click="openLogModal({{ json_encode($target) }})" 
-                                        class="flex items-center gap-1.5 px-3 py-2 bg-[#89986d]/10 text-[#6b7854] hover:bg-[#89986d]/20 rounded-xl transition-all font-bold text-xs border border-[#89986d]/20 shadow-sm group/log" 
-                                        title="Savings Log">
-                                    <svg class="w-4 h-4 transition-transform group-hover/log:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                    </svg>
-                                    <span>Log</span>
-                                </button>
-                                <a href="{{ route('targets.edit', $target->id) }}" class="p-2 bg-gradient-to-br from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] rounded-xl transition border border-[#9cab84]/40 shadow-sm" title="Edit Target">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                    </svg>
-                                </a>
-                                <form action="{{ route('targets.destroy', $target->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this target?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="p-2 bg-gradient-to-br from-[#d9a3a3] to-[#c17b7b] hover:from-[#c17b7b] hover:to-[#a85a5a] text-white rounded-xl transition border border-[#c17b7b]/40 shadow-sm" title="Delete Target">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
+                        @endif
+                        
+                        <!-- Status Badge -->
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-md {{ $target->status == 'active' ? 'bg-[#c5d89d]/80 text-[#2d2d2d]' : 'bg-gray-800/80 text-white' }}">
+                                {{ $target->status }}
+                            </span>
                         </div>
 
+                        <!-- Progress Overlay -->
                         @php
                             $percentage = min(($target->current_amount / $target->target_amount) * 100, 100);
                         @endphp
-                        
-                        <div class="mb-4">
-                            <div class="flex justify-between items-end mb-2">
-                                <span class="text-2xl font-bold text-[#2d2d2d]">{{ round($percentage) }}%</span>
-                                <span class="text-sm text-[#89986d]">Rp {{ number_format($target->current_amount, 0, ',', '.') }} / {{ number_format($target->target_amount, 0, ',', '.') }}</span>
+                        <div class="absolute bottom-0 left-0 right-0 h-1.5 bg-black/10">
+                            <div class="h-full bg-gradient-to-r from-[#c5d89d] to-[#89986d] transition-all duration-1000" style="width: {{ $percentage }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-1 min-h-0">
+                        <div class="flex justify-between items-start mb-4 h-14 flex-shrink-0">
+                            <div class="flex-1 mr-4">
+                                <h3 class="text-xl font-extrabold text-[#2d2d2d] group-hover:text-[#6b7854] transition-colors line-clamp-2 leading-tight">{{ $target->title }}</h3>
+                                <p class="text-[#89986d] text-[10px] font-medium flex items-center gap-1.5 mt-1">
+                                    <i class="far fa-calendar-alt"></i>
+                                    Until {{ $target->deadline->format('d M Y') }}
+                                </p>
                             </div>
-                            <div class="w-full bg-[#c5d89d]/10 rounded-full h-2 overflow-hidden border border-[#c5d89d]/20">
-                                <div class="bg-gradient-to-r from-[#c5d89d] to-[#89986d] h-full rounded-full transition-all duration-500" style="width: {{ $percentage }}%"></div>
+                            <div class="flex-shrink-0">
+                                <a href="{{ route('targets.edit', $target->id) }}" class="w-8 h-8 flex items-center justify-center bg-[#faf8ed] text-[#89986d] hover:bg-[#89986d] hover:text-white rounded-lg transition-all shadow-sm">
+                                    <i class="fas fa-edit text-xs"></i>
+                                </a>
                             </div>
                         </div>
 
-                        <div class="flex justify-between pt-4 border-t border-[#c5d89d]/20">
-                            <div class="text-center">
-                                <p class="text-[10px] uppercase tracking-wider text-[#9cab84] mb-1 font-bold">Remaining</p>
-                                <p class="text-sm font-bold text-[#2d2d2d]">Rp {{ number_format(max(0, $target->target_amount - $target->current_amount), 0, ',', '.') }}</p>
+                        <div class="space-y-4 mb-6 flex-shrink-0">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-widest text-[#9cab84] font-bold mb-0.5">Saved</p>
+                                    <p class="text-lg font-black text-[#2d2d2d]">Rp {{ number_format($target->current_amount, 0, ',', '.') }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[10px] uppercase tracking-widest text-[#9cab84] font-bold mb-0.5">Goal</p>
+                                    <p class="text-sm font-bold text-[#89986d]">Rp {{ number_format($target->target_amount, 0, ',', '.') }}</p>
+                                </div>
                             </div>
-                            <div class="text-center">
-                                <p class="text-[10px] uppercase tracking-wider text-[#9cab84] mb-1 font-bold">Days Left</p>
-                                @php
-                                    $today = now()->startOfDay();
-                                    $deadline = $target->deadline->startOfDay();
-                                    $daysLeft = $today->diffInDays($deadline, false);
-                                @endphp
-                                <p class="text-sm font-bold {{ $daysLeft < 0 ? 'text-red-500' : 'text-[#2d2d2d]' }}">
-                                    @if($daysLeft > 0)
-                                        {{ $daysLeft }} Days
-                                    @elseif($daysLeft == 0)
-                                        Today
-                                    @else
-                                        Overdue
-                                    @endif
-                                </p>
+
+                            <div class="relative pt-1">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-black text-[#6b7854]">{{ round($percentage) }}% Completed</span>
+                                    @php
+                                        $today = now()->startOfDay();
+                                        $deadline = $target->deadline->startOfDay();
+                                        $daysLeft = $today->diffInDays($deadline, false);
+                                    @endphp
+                                    <span class="text-[10px] font-bold {{ $daysLeft < 0 ? 'text-rose-500' : 'text-[#9cab84]' }}">
+                                        @if($daysLeft > 0) {{ $daysLeft }}d left @elseif($daysLeft == 0) Today @else Overdue @endif
+                                    </span>
+                                </div>
+                                <div class="overflow-hidden h-2.5 text-xs flex rounded-full bg-[#f1f5f9] border border-gray-100 shadow-inner">
+                                    <div style="width:{{ $percentage }}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#c5d89d] to-[#89986d] transition-all duration-1000"></div>
+                                </div>
                             </div>
-                            <div class="text-center">
-                                <p class="text-[10px] uppercase tracking-wider text-[#9cab84] mb-1 font-bold">Status</p>
-                                <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase {{ $target->status == 'active' ? 'bg-[#c5d89d]/30 text-[#6b7854]' : 'bg-gray-100 text-gray-500' }}">
-                                    {{ $target->status }}
-                                </span>
-                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-6 border-t border-[#f1f5f9] flex items-center gap-3 flex-shrink-0">
+                            <button @click="openLogModal({{ json_encode($target) }})" 
+                                    class="flex-1 py-3 bg-gradient-to-r from-[#c5d89d] to-[#9cab84] hover:from-[#9cab84] hover:to-[#89986d] text-[#2d2d2d] text-xs font-bold rounded-2xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group/btn border border-[#9cab84]/30">
+                                <i class="fas fa-plus-circle transition-transform group-hover/btn:rotate-90"></i>
+                                <span>Update Progress</span>
+                            </button>
+                            
+                            <form action="{{ route('targets.destroy', $target->id) }}" method="POST" onsubmit="return confirm('Delete this target?')" class="shrink-0">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#d9a3a3] to-[#c17b7b] hover:from-[#c17b7b] hover:to-[#a85a5a] text-white rounded-2xl transition-all border border-[#c17b7b]/40 shadow-md hover:shadow-lg group/del">
+                                    <i class="fas fa-trash-alt transition-transform group-hover/del:scale-110"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

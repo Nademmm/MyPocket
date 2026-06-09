@@ -5,11 +5,50 @@ namespace App\Http\Controllers;
 use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Throwable;
 
 class TargetController extends Controller
 {
+    /**
+     * Process and crop image
+     */
+    private function processImage($file): string
+    {
+        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $path = 'targets/' . $filename;
+
+        // Ensure directory exists
+        if (!Storage::disk('public')->exists('targets')) {
+            Storage::disk('public')->makeDirectory('targets');
+        }
+
+        // Fallback if GD or Imagick is not installed
+        if (!extension_loaded('gd') && !extension_loaded('imagick')) {
+            \Log::warning('Image processing failed: GD or Imagick extension not loaded. Storing original image.');
+            return $file->storeAs('targets', $filename, 'public');
+        }
+
+        try {
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($file);
+            
+            // Crop and resize to 800x400 (2:1 aspect ratio)
+            $image->cover(800, 320);
+            
+            // Save to public storage
+            $image->toJpeg(80)->save(storage_path('app/public/' . $path));
+
+            return $path;
+        } catch (Throwable $e) {
+            \Log::error('Image processing error: ' . $e->getMessage());
+            return $file->storeAs('targets', $filename, 'public');
+        }
+    }
+
     public function index()
     {
         $targets = Auth::user()->targets()->with(['logs' => function($query) {
@@ -40,6 +79,11 @@ class TargetController extends Controller
             }
 
             $validated = $this->validateTarget($request);
+            
+            if ($request->hasFile('image')) {
+                $validated['image'] = $this->processImage($request->file('image'));
+            }
+
             $target = $user->targets()->create($validated);
 
             \Log::info('Target created', [
@@ -92,6 +136,14 @@ class TargetController extends Controller
 
             $target = $user->targets()->findOrFail($id);
             $validated = $this->validateTarget($request);
+
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($target->image) {
+                    Storage::disk('public')->delete($target->image);
+                }
+                $validated['image'] = $this->processImage($request->file('image'));
+            }
 
             $target->update($validated);
             Auth::user()->updateBalance();
@@ -146,9 +198,12 @@ class TargetController extends Controller
             'current_amount' => 'nullable|numeric|min:0|max:999999999999.99',
             'deadline' => 'required|date',
             'status' => 'required|in:active,completed,cancelled',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'is_published' => 'nullable|boolean',
         ]);
 
         $validated['current_amount'] = $validated['current_amount'] ?? 0;
+        $validated['is_published'] = $request->has('is_published');
 
         return $validated;
     }

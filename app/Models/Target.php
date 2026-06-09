@@ -27,6 +27,7 @@ class Target extends Model
             'current_amount' => 'decimal:2',
             'deadline' => 'date',
             'status' => 'string',
+            'is_published' => 'boolean',
         ];
     }
 

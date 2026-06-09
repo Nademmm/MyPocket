@@ -13,6 +13,7 @@ use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\SavingDiaryController;
 use App\Http\Controllers\TargetLogController;
+use App\Http\Controllers\SavingsArenaController;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('reminders/{reminder}/toggle-active', [ReminderController::class, 'toggleActive'])->name('reminders.toggle-active');
     Route::resource('badges', BadgeController::class)->only(['index']);
     Route::resource('diaries', SavingDiaryController::class);
+    Route::get('/savings-arena', [SavingsArenaController::class, 'index'])->name('savings-arena.index');
 });
 
 
