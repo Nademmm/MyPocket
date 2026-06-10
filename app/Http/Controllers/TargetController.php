@@ -85,6 +85,7 @@ class TargetController extends Controller
             }
 
             $target = $user->targets()->create($validated);
+            $user->updateBalance();
 
             \Log::info('Target created', [
                 'target_id' => $target->id,
@@ -175,6 +176,7 @@ class TargetController extends Controller
         try {
             $target = $user->targets()->findOrFail($id);
             $target->delete();
+            $user->updateBalance();
 
             return redirect()->route('targets.index')->with('success', 'Target deleted successfully.');
         } catch (Throwable $e) {

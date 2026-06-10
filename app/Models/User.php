@@ -99,10 +99,19 @@ class User extends Authenticatable
             ->withCasts(['earned_at' => 'datetime']);
     }
 
+    protected $totalsCache = [];
+
     public function updateBalance(): void
     {
+        $this->refreshTotalsCache();
         $this->total_saved = $this->getBalance();
         $this->save();
+        $this->checkAndAwardBadges();
+    }
+
+    public function refreshTotalsCache(): void
+    {
+        $this->totalsCache = [];
     }
 
     /**
@@ -133,6 +142,7 @@ class User extends Authenticatable
 
         $this->last_transaction_date = $today;
         $this->save();
+        $this->checkAndAwardBadges();
     }
 
     /**
@@ -200,7 +210,7 @@ class User extends Authenticatable
      */
     public function totalIncome(): float
     {
-        return $this->transactions()
+        return $this->totalsCache['income'] ??= (float) $this->transactions()
             ->where('type', 'income')
             ->sum('amount');
     }
@@ -210,7 +220,7 @@ class User extends Authenticatable
      */
     public function totalExpenses(): float
     {
-        return $this->transactions()
+        return $this->totalsCache['expense'] ??= (float) $this->transactions()
             ->where('type', 'expense')
             ->sum('amount');
     }
@@ -220,7 +230,7 @@ class User extends Authenticatable
      */
     public function totalSavings(): float
     {
-        return $this->targets()->sum('current_amount');
+        return $this->totalsCache['savings'] ??= (float) $this->targets()->sum('current_amount');
     }
 
     /**

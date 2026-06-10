@@ -3,7 +3,7 @@
         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#c5d89d]/20 text-[#6b7854] text-xs font-bold uppercase tracking-widest mb-4">
             <i class="fas fa-users text-[10px]"></i> Community Showcase
         </div>
-        <h1 class="text-5xl font-black text-[#2d2d2d] mb-4">Savings Arena 🏆</h1>
+        <h1 class="text-5xl font-black text-[#2d2d2d] mb-4">Savings Arena </h1>
         <p class="text-[#89986d] text-lg max-w-2xl mx-auto font-medium">
             Join the movement! Get inspired by how our community is reaching their financial goals and share your own journey to motivate others.
         </p>
